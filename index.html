@@ -1,0 +1,1220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Untangle Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBF7F0; --surface:#FFFFFF; --ink:#1F2A2E; --muted:#5B676C; --line:#E6DFD3; --field:#D4CBBD;
+  --primary:#0F6E6E; --primary-dark:#0A5454; --primary-tint:#E3F1EF; --primary-line:#CDE5E1;
+  --accent:#F2A93B; --accent-tint:#FDF0D9;
+  --good:#2E7D4F; --good-tint:#E4F2E9; --warn:#9A5B00; --warn-tint:#FFF0D6; --bad:#B3412E; --bad-tint:#FBE7E2;
+  --error:#B3261E; --error-tint:#FDECEA;
+  --font-head:'Bricolage Grotesque','Noto Sans Devanagari',system-ui,sans-serif;
+  --font-body:'Noto Sans','Noto Sans Devanagari',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r:12px; --r-lg:16px;
+  --shadow:0 1px 2px rgba(31,42,46,.05),0 6px 20px rgba(31,42,46,.06);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--font-body);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+main{flex:1}
+body.has-bar main{padding-bottom:84px}
+@media(min-width:1024px){body.has-bar main{padding-bottom:0}}
+h1,h2,h3,h4{font-family:var(--font-head);line-height:1.2;margin:0 0 12px;letter-spacing:-.01em;font-weight:700;color:var(--ink)}
+h1{font-size:30px} h2{font-size:23px} h3{font-size:19px} h4,.h4{font-size:17px;font-family:var(--font-head);font-weight:700}
+@media(min-width:768px){h1{font-size:40px}h2{font-size:28px}h3{font-size:20px}}
+:lang(hi) p,:lang(hi) li{line-height:1.75}
+p{margin:0 0 12px}
+a{color:var(--primary);font-weight:600;text-underline-offset:3px}
+ul,ol{margin:0 0 12px;padding-left:22px}
+li+li{margin-top:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.narrow{max-width:640px;margin:0 auto;padding:0 16px}
+.page{padding-top:24px;padding-bottom:48px}
+@media(min-width:768px){.page{padding-top:40px;padding-bottom:72px}}
+.muted{color:var(--muted)} .small{font-size:15px} .tiny{font-size:13px}
+.stack>*+*{margin-top:16px} .stack-lg>*+*{margin-top:24px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.center{text-align:center}
+.grid2,.grid3,.grid4{display:grid;gap:16px}
+@media(min-width:768px){.grid2{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:repeat(3,1fr)}.grid4{grid-template-columns:repeat(4,1fr)}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media(max-width:420px){.hide-xs{display:none!important}}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
+.back{display:inline-flex;align-items:center;gap:4px;min-height:44px;margin-bottom:8px;text-decoration:none;font-weight:600}
+.back svg{width:20px;height:20px}
+hr.sep{border:0;border-top:1px solid var(--line);margin:24px 0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:var(--r);border:1.5px solid transparent;font:600 16px/1.2 var(--font-body);cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s,color .15s;text-align:center}
+.btn:active{transform:translateY(1px)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-secondary{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+.btn-ghost{background:transparent;color:var(--primary);padding:0 12px}
+.btn-ghost:hover{background:var(--primary-tint)}
+.btn-danger{background:var(--bad);color:#fff}
+.btn-danger:hover{background:#962F1F}
+.btn-danger-outline{background:#fff;color:var(--bad);border-color:#EBC3BA}
+.btn-danger-outline:hover{border-color:var(--bad)}
+.btn-block{width:100%}
+.btn-sm{min-height:44px;padding:0 14px;font-size:15px}
+.btn[disabled],.btn.is-disabled{opacity:.5;cursor:not-allowed}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-row{display:flex;flex-direction:column;gap:12px}
+@media(min-width:560px){.btn-row{flex-direction:row;flex-wrap:wrap}}
+
+/* cards & badges */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px}
+@media(min-width:768px){.card{padding:24px}}
+.card-tint{background:var(--primary-tint);border-color:var(--primary-line)}
+.card-warm{background:var(--accent-tint);border-color:#F3D9A8}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:700;line-height:1.35;white-space:nowrap}
+.badge svg{width:14px;height:14px}
+.b-good{background:var(--good-tint);color:var(--good)} .b-warn{background:var(--warn-tint);color:var(--warn)} .b-bad{background:var(--bad-tint);color:var(--bad)}
+.b-neutral{background:#F1ECE3;color:var(--muted)} .b-primary{background:var(--primary-tint);color:var(--primary)}
+
+/* forms */
+.field{display:block}
+.label{display:block;font-weight:600;margin-bottom:6px}
+.input,.textarea,.select{width:100%;min-height:48px;padding:12px 14px;border:1.5px solid var(--field);border-radius:var(--r);background:#fff;font:400 16px/1.55 var(--font-body);color:var(--ink)}
+.textarea{min-height:240px;resize:vertical}
+@media(min-width:768px){.textarea.big{min-height:340px}}
+.input:focus,.textarea:focus,.select:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 3px rgba(15,110,110,.18)}
+.has-error .input,.has-error .textarea,.has-error .select{border-color:var(--error);background:#FFFBFA}
+.err{display:flex;gap:6px;align-items:flex-start;color:var(--error);font-size:15px;font-weight:600;margin-top:8px}
+.err svg{width:18px;height:18px;flex:none;margin-top:2px}
+.help{font-size:14px;color:var(--muted);margin-top:6px}
+.divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px;margin:20px 0}
+.divider:before,.divider:after{content:"";flex:1;border-top:1px solid var(--line)}
+
+/* alerts */
+.alert{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:var(--r);font-size:15px;border:1px solid;line-height:1.55}
+.alert>svg{flex:none;width:20px;height:20px;margin-top:2px}
+.alert p:last-child{margin:0}
+.a-info{background:var(--primary-tint);border-color:var(--primary-line);color:#0B4A4A}
+.a-warn{background:var(--accent-tint);border-color:#F0D49E;color:#5E3A00}
+.a-error{background:var(--error-tint);border-color:#F4C7C2;color:#8C1D17}
+.a-good{background:var(--good-tint);border-color:#C5E3D0;color:#1E5A37}
+
+/* header & footer */
+.hdr{position:sticky;top:0;z-index:20;background:rgba(251,247,240,.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hdr .wrap{display:flex;align-items:center;gap:8px;min-height:64px}
+.logo{display:flex;align-items:center;gap:8px;font:700 21px var(--font-head);color:var(--ink);text-decoration:none;margin-right:auto;min-height:44px}
+.logo svg{width:32px;height:32px;flex:none}
+.navlink{display:none!important}
+@media(min-width:768px){.navlink{display:inline-flex!important}}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--primary-tint);color:var(--primary);display:grid;place-items:center;font-weight:700;text-decoration:none;border:1.5px solid var(--primary-line);flex:none}
+.ftr{border-top:1px solid var(--line);padding:28px 0 36px;font-size:14px;color:var(--muted);background:var(--bg)}
+.ftr nav{display:flex;flex-wrap:wrap;gap:4px 8px;margin-bottom:8px}
+.ftr nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px 0 0;color:var(--ink);font-weight:600;text-decoration:none}
+.ftr nav a:hover{color:var(--primary)}
+
+/* modal / toast */
+.overlay{position:fixed;inset:0;background:rgba(20,28,30,.5);z-index:50;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
+.sheet{background:#fff;width:100%;max-width:540px;border-radius:20px 20px 0 0;padding:24px 20px calc(24px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto;animation:up .2s}
+.sheet.wide{max-width:720px}
+@media(min-width:768px){.overlay{align-items:center;padding:24px}.sheet{border-radius:20px;padding:28px}}
+.sheet-x{float:right;margin:-8px -8px 0 8px;width:44px;height:44px;border-radius:50%;border:0;background:#F4EFE6;cursor:pointer;display:grid;place-items:center;color:var(--ink)}
+.sheet-x svg{width:20px;height:20px}
+@keyframes fade{from{opacity:0}} @keyframes up{from{transform:translateY(24px);opacity:.6}}
+#toast-root{position:fixed;left:0;right:0;bottom:96px;z-index:70;display:flex;justify-content:center;pointer-events:none;padding:0 16px}
+@media(min-width:1024px){#toast-root{bottom:32px}}
+.toast{background:var(--ink);color:#fff;padding:12px 18px;border-radius:var(--r);font-weight:500;font-size:15px;max-width:480px;box-shadow:0 8px 24px rgba(0,0,0,.2);animation:up .2s}
+
+/* segmented / chips / switch */
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:var(--r);background:#fff;padding:3px;gap:3px}
+.seg button{min-height:40px;padding:0 16px;border:0;border-radius:9px;background:transparent;font:600 15px var(--font-body);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.seg button[aria-pressed="true"]{background:var(--primary);color:#fff}
+.seg button svg{width:16px;height:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 16px;border:1.5px solid var(--field);border-radius:999px;background:#fff;font:500 15px var(--font-body);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-align:left}
+.chip svg{width:16px;height:16px}
+.chip[aria-pressed="true"]{background:var(--primary-tint);border-color:var(--primary);color:var(--primary-dark);font-weight:600}
+.opt-list{display:grid;gap:8px}
+.opt{min-height:48px;padding:10px 16px;border:1.5px solid var(--field);border-radius:var(--r);background:#fff;font:500 16px var(--font-body);text-align:left;cursor:pointer;display:flex;align-items:center;gap:12px;color:var(--ink)}
+.opt .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--field);flex:none}
+.opt[aria-pressed="true"]{border-color:var(--primary);background:var(--primary-tint);font-weight:600}
+.opt[aria-pressed="true"] .dot{border-color:var(--primary);background:radial-gradient(var(--primary) 0 45%,#fff 50%)}
+.switch{width:56px;height:32px;border-radius:999px;border:0;background:#C9C1B4;position:relative;cursor:pointer;flex:none}
+.switch:after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.switch[aria-checked="true"]{background:var(--primary)}
+.switch[aria-checked="true"]:after{left:27px}
+
+/* landing */
+.hero{padding:32px 0 40px}
+.hero-grid{display:grid;gap:28px;align-items:center}
+@media(min-width:900px){.hero{padding:64px 0}.hero-grid{grid-template-columns:1.1fr .9fr;gap:56px}}
+.hero h1{font-size:34px}
+@media(min-width:768px){.hero h1{font-size:52px}}
+.hero .lead{font-size:18px;color:#3C4A4F;max-width:560px}
+.photo{margin:0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);background:#fff}
+.photo-art{aspect-ratio:4/3;background:repeating-linear-gradient(135deg,#F6EBD7 0 16px,#F1E2C8 16px 32px);display:grid;place-items:center;color:#8A6A3A}
+.photo-art svg{width:44px;height:44px}
+.photo figcaption{padding:12px 14px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);line-height:1.5}
+.section{padding:40px 0}
+@media(min-width:768px){.section{padding:64px 0}}
+.section-alt{background:#F5EFE4;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#3B2600;font:700 17px var(--font-head);display:grid;place-items:center;margin-bottom:12px}
+.ex .ba{display:grid;gap:10px;margin:12px 0}
+.ex .ba div{padding:12px 14px;border-radius:var(--r);font-size:15px;line-height:1.55}
+.ex .before{background:#F6F1E8}
+.ex .after{background:var(--primary-tint)}
+.ex .ba b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.ex .before b{color:var(--muted)} .ex .after b{color:var(--primary)}
+.saved{font:700 20px var(--font-head);color:var(--good)}
+.check-list{list-style:none;padding:0}
+.check-list li{display:flex;gap:10px;align-items:flex-start}
+.check-list li svg{width:20px;height:20px;color:var(--primary);flex:none;margin-top:3px}
+.cta-band{background:var(--primary);color:#fff;border-radius:20px;padding:32px 20px;text-align:center}
+.cta-band h2{color:#fff}
+.cta-band .btn-primary{background:var(--accent);color:#2B1C00}
+.cta-band .btn-primary:hover{background:#E8992A}
+
+/* input page */
+.input-grid{display:grid;gap:24px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:960px){.input-grid{grid-template-columns:minmax(0,1fr) 320px;align-items:start}}
+.dz{border:2px dashed var(--field);border-radius:var(--r-lg);padding:20px;text-align:center;background:#fff}
+.dz svg{width:28px;height:28px;color:var(--primary)}
+.lockbox{border:2px dashed var(--line);border-radius:var(--r-lg);padding:18px;background:#F7F2EA;display:flex;gap:14px;align-items:flex-start}
+.lockbox>svg{width:24px;height:24px;color:var(--muted);flex:none;margin-top:2px}
+.file-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r);background:#fff}
+.file-row .fi{width:40px;height:40px;border-radius:10px;background:var(--primary-tint);color:var(--primary);display:grid;place-items:center;flex:none;font-size:11px;font-weight:700;text-transform:uppercase}
+.file-row .fn{flex:1;min-width:0}
+.file-row .fn div:first-child{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;color:var(--muted);flex:none}
+.icon-btn:hover{background:#F1ECE3;color:var(--ink)}
+.icon-btn svg{width:20px;height:20px}
+.textbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px}
+.linkbtn{background:none;border:0;padding:0;min-height:44px;font:600 15px var(--font-body);color:var(--primary);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* follow-up */
+.q{transition:opacity .15s}
+.q .qnum{font-size:13px;font-weight:700;color:var(--primary);letter-spacing:.04em;text-transform:uppercase}
+.q.skipped{background:#F7F2EA;border-style:dashed}
+.q.skipped .qbody{display:none}
+.q-foot{display:flex;justify-content:flex-end;margin-top:8px}
+.progress{height:8px;border-radius:99px;background:#EDE6DA;overflow:hidden}
+.progress span{display:block;height:100%;background:var(--primary);border-radius:99px;transition:width .4s}
+.sticky-foot{position:sticky;bottom:0;background:linear-gradient(rgba(251,247,240,0),var(--bg) 24%);padding:24px 0 calc(16px + env(safe-area-inset-bottom));z-index:5}
+
+/* processing */
+.pstep{display:flex;gap:14px;align-items:center;padding:12px 0;color:var(--muted);font-weight:500}
+.pstep .pi{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:none;background:#fff}
+.pstep .pi svg{width:18px;height:18px;opacity:0}
+.pstep.doing{color:var(--ink);font-weight:600}
+.pstep.doing .pi{border-color:var(--primary);border-top-color:transparent;animation:spin .8s linear infinite}
+.pstep.done{color:var(--ink)}
+.pstep.done .pi{background:var(--primary);border-color:var(--primary);color:#fff}
+.pstep.done .pi svg{opacity:1}
+@keyframes spin{to{transform:rotate(360deg)}}
+.knot{width:88px;height:88px;margin:0 auto 16px;display:block}
+.knot path{stroke-dasharray:160;animation:draw 2.4s ease-in-out infinite}
+@keyframes draw{0%{stroke-dashoffset:160}50%{stroke-dashoffset:0}100%{stroke-dashoffset:-160}}
+
+/* report */
+.report-grid{display:grid;gap:24px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:1024px){.report-grid{grid-template-columns:minmax(0,1fr) 360px;align-items:start}.report-aside{position:sticky;top:88px;max-height:calc(100vh - 104px);overflow:auto;padding-bottom:8px}}
+.report-head{display:flex;flex-direction:column;gap:12px}
+@media(min-width:768px){.report-head{flex-direction:row;justify-content:space-between;align-items:flex-start}}
+.glance{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.glance div{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;text-align:left}
+.glance b{display:block;font:700 22px/1.2 var(--font-head);color:var(--primary)}
+.glance span{font-size:13px;color:var(--muted);line-height:1.35;display:block;margin-top:2px}
+.jump{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none;max-width:100%}
+.jump::-webkit-scrollbar{display:none}
+.jump button{flex:none}
+.rsec{scroll-margin-top:84px;margin-top:32px}
+.rsec>h2{display:flex;align-items:center;gap:10px}
+.rsec>h2 .n{width:30px;height:30px;border-radius:8px;background:var(--accent-tint);color:#7A4A00;font-size:15px;display:grid;place-items:center;flex:none}
+.psteps{list-style:none;padding:0;counter-reset:s;margin:0}
+.psteps li{counter-increment:s;display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.psteps li:last-child{border-bottom:0}
+.psteps li:before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--primary-tint);color:var(--primary);font-weight:700;font-size:14px;display:grid;place-items:center;flex:none;margin-top:1px}
+.bn{display:grid;gap:6px;padding:14px 0;border-bottom:1px solid var(--line)}
+.bn:last-child{border-bottom:0}
+.bn-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.bn-top b{font-size:16px}
+.sev{display:flex;gap:3px;align-items:center;flex:none}
+.sev i{width:16px;height:8px;border-radius:2px;background:#EDE6DA}
+.sev.h i{background:var(--bad)} .sev.m i:nth-child(-n+2){background:var(--accent)} .sev.l i:first-child{background:#9BB8B3}
+.bn-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--muted)}
+.idea{margin-top:16px;padding:0;overflow:hidden}
+.idea-hd{display:flex;gap:12px;padding:20px 20px 0}
+.idea-num{width:36px;height:36px;border-radius:10px;background:var(--primary);color:#fff;font:700 17px var(--font-head);display:grid;place-items:center;flex:none}
+.idea.v-skip .idea-num{background:#8E8A84}
+.idea-hd h3{margin-bottom:8px}
+.idea-body{padding:12px 20px 20px}
+.verdict-line{padding:10px 14px;border-radius:var(--r);font-size:15px;margin:4px 0 14px}
+.v-now .verdict-line{background:var(--good-tint);color:#1E5A37}
+.v-plan .verdict-line{background:var(--warn-tint);color:#5E3A00}
+.v-skip .verdict-line{background:var(--bad-tint);color:#7E2A1C}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.facts div{background:#FAF7F2;border:1px solid #EFE8DC;border-radius:var(--r);padding:10px 12px}
+.facts dt{font-size:13px;color:var(--muted);font-weight:600}
+.facts dd{margin:2px 0 0;font-size:15px;font-weight:600;line-height:1.45}
+.facts .wide{grid-column:1/-1}
+.meter{display:inline-flex;gap:3px;vertical-align:middle;margin-right:6px}
+.meter i{width:10px;height:10px;border-radius:3px;background:#E3DBCE}
+.meter i.on{background:var(--primary)}
+details.guide{border-top:1px solid var(--line);margin:0 -20px -20px}
+details.guide summary{list-style:none;cursor:pointer;min-height:52px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;font-weight:700;color:var(--primary)}
+details.guide summary::-webkit-details-marker{display:none}
+details.guide summary svg{width:20px;height:20px;transition:transform .2s}
+details.guide[open] summary svg{transform:rotate(90deg)}
+details.guide ol{padding:0 20px 20px 44px;margin:0}
+details.guide li{padding-left:4px}
+.order{list-style:none;padding:0;margin:0}
+.order li{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);margin:0}
+.order li:last-child{border-bottom:0}
+.order .when{font-size:13px;font-weight:700;color:var(--muted);padding-top:2px}
+.order .what{font-weight:600}
+.order .why{font-size:14px;color:var(--muted)}
+.notes{list-style:none;padding:0;margin:0}
+.notes li{display:flex;gap:10px;padding:10px 0;align-items:flex-start}
+.notes li svg{width:20px;height:20px;color:var(--warn);flex:none;margin-top:3px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);display:flex;gap:4px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.05)}
+.bar .bb{flex:1;min-height:56px;border:0;background:transparent;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:600 12px var(--font-body);color:var(--ink);cursor:pointer;text-decoration:none}
+.bar .bb svg{width:22px;height:22px;color:var(--primary)}
+.bar .bb:active{background:var(--primary-tint)}
+.bar .btn{flex:1}
+@media(min-width:1024px){.bar{display:none}}
+.act-list{display:grid;gap:8px}
+.act-list .btn{justify-content:flex-start}
+.act-list .btn .lk{margin-left:auto;color:var(--muted)}
+.rate-btns{display:flex;gap:10px}
+.rate-btns button{flex:1;min-height:52px;border:1.5px solid var(--field);border-radius:var(--r);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font:600 15px var(--font-body);color:var(--ink)}
+.rate-btns button svg{width:22px;height:22px}
+.rate-btns button[aria-pressed="true"]{border-color:var(--primary);background:var(--primary-tint);color:var(--primary-dark)}
+.chat-log{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.bubble{padding:10px 14px;border-radius:14px;font-size:15px;line-height:1.55;max-width:92%}
+.bubble.me{align-self:flex-end;background:var(--primary);color:#fff;border-bottom-right-radius:4px}
+.bubble.ai{align-self:flex-start;background:#F6F1E8;border-bottom-left-radius:4px}
+.bubble.ai .who{font-size:12px;font-weight:700;color:var(--primary);display:block;margin-bottom:2px}
+.typing i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted);margin-right:3px;animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{50%{opacity:.25}}
+.chat-form{display:flex;gap:8px}
+.chat-form .input{flex:1}
+.chat-form .btn{padding:0 14px}
+.count-pill{font-size:13px;font-weight:600;color:var(--muted);background:#F1ECE3;border-radius:999px;padding:3px 10px}
+
+/* dashboard */
+.usage .num{font:700 28px var(--font-head);color:var(--primary)}
+.rep-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);transition:border-color .15s}
+.rep-item:hover{border-color:var(--primary)}
+.rep-item>svg{width:22px;height:22px;color:var(--muted);flex:none;margin-left:auto}
+.rep-item h3{margin-bottom:4px}
+.rep-ic{width:48px;height:48px;border-radius:12px;background:var(--accent-tint);color:#8A5A00;display:grid;place-items:center;flex:none}
+.rep-ic svg{width:24px;height:24px}
+.empty{text-align:center;padding:40px 20px}
+.empty svg.ill{width:120px;height:120px;margin:0 auto 16px;display:block}
+.status-ill{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;margin:0 auto 20px}
+.status-ill svg{width:34px;height:34px}
+.si-good{background:var(--good-tint);color:var(--good)} .si-bad{background:var(--error-tint);color:var(--error)} .si-info{background:var(--primary-tint);color:var(--primary)} .si-warn{background:var(--accent-tint);color:#8A5A00}
+
+/* settings */
+.set-row{display:flex;gap:16px;align-items:flex-start;justify-content:space-between}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:15px}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-weight:600;word-break:break-word}
+
+/* admin */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto}
+.tabs a{min-height:48px;padding:0 14px;display:inline-flex;align-items:center;text-decoration:none;color:var(--muted);font-weight:600;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs a[aria-current="page"]{color:var(--primary);border-color:var(--primary)}
+.tile .big{font:700 28px/1.15 var(--font-head);color:var(--ink);margin:4px 0}
+.tile .lbl{font-size:14px;color:var(--muted);font-weight:600}
+.tile .sub{font-size:13px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(min-width:900px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.bars{display:flex;align-items:flex-end;gap:4px;height:160px;padding-top:8px}
+.bars .b{flex:1;background:var(--primary);border-radius:4px 4px 0 0;position:relative;min-width:0}
+.bars .b:last-child{background:var(--accent)}
+.bars-x{display:flex;gap:4px;font-size:11px;color:var(--muted);margin-top:6px}
+.bars-x span{flex:1;text-align:center;min-width:0}
+.fun{margin:14px 0}
+.fun-top{display:flex;justify-content:space-between;gap:8px;font-size:15px;margin-bottom:6px}
+.fun-track{height:12px;border-radius:99px;background:#EDE6DA;position:relative}
+.fun-track span{display:block;height:100%;border-radius:99px;background:var(--primary)}
+.fun-track .target{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.urow{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.urow:last-child{border-bottom:0}
+.urow .who{flex:1 1 220px;min-width:0}
+.urow .who b{display:block}
+.urow .meta{font-size:14px;color:var(--muted);flex:1 1 200px}
+.fb{padding:14px 0;border-bottom:1px solid var(--line)}
+.fb:last-child{border-bottom:0}
+
+/* email preview */
+.email{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.email-meta{padding:14px 18px;background:#F6F1E8;font-size:14px;border-bottom:1px solid var(--line)}
+.email-meta div{overflow:hidden;text-overflow:ellipsis}
+.email-body{padding:24px 20px}
+.email-body .logo{margin-bottom:16px}
+.preview-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4E3F7A;background:#ECE8F7;border-radius:6px;padding:4px 8px;margin-bottom:12px}
+
+/* legal */
+.legal h2{font-size:21px;margin-top:28px}
+.legal p,.legal li{color:#33403F}
+
+/* mockup tools (not part of product) */
+.mock-fab{position:fixed;right:12px;bottom:16px;z-index:45;background:#3B2F5C;color:#fff;border:0;border-radius:999px;min-height:44px;padding:0 16px;font:600 14px var(--font-body);display:flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 6px 18px rgba(59,47,92,.35)}
+.mock-fab svg{width:18px;height:18px}
+body.has-bar .mock-fab{bottom:84px}
+@media(max-width:767px){.mock-fab{padding:0;width:44px;justify-content:center;font-size:0;gap:0}.mock-fab svg{width:20px;height:20px}}
+@media(min-width:1024px){body.has-bar .mock-fab{bottom:16px}}
+.mock-group{margin-top:18px}
+.mock-group h4{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#4E3F7A;margin-bottom:8px}
+.mock-items{display:flex;flex-wrap:wrap;gap:6px}
+.mock-items button{min-height:40px;padding:0 12px;border-radius:10px;border:1px solid #D9D3EA;background:#F7F5FC;font:500 14px var(--font-body);color:#2C2445;cursor:pointer;text-align:left}
+.mock-items button:hover{border-color:#3B2F5C}
+.mock-items button.on{background:#3B2F5C;color:#fff}
+</style>
+</head>
+<body>
+<div id="hdr"></div>
+<main id="app" tabindex="-1"></main>
+<div id="ftr"></div>
+<div id="modal-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+<button class="mock-fab" onclick="openDrawer()" aria-label="Mockup: jump to any screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>All screens</button>
+
+<script>
+/* ============ CORE ============ */
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const P=(d,extra='')=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${d}</svg>`;
+const ICONS={
+ lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+ check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+ back:'<path d="M15 18l-6-6 6-6"/>', chev:'<path d="M9 6l6 6-6 6"/>',
+ download:'<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+ share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',
+ chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+ edit:'<path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M14 6l4 4"/>',
+ trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+ up:'<path d="M7 11v9H4v-9h3zM7 11l4-7a2 2 0 0 1 3 2l-1 4h6a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 17.6 21H7"/>',
+ clip:'<path d="M21 11l-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 7"/>',
+ file:'<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8l-5-5z"/><path d="M14 3v5h5"/>',
+ x:'<path d="M6 6l12 12M18 6L6 18"/>',
+ shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>',
+ alert:'<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ send:'<path d="M4 12l16-8-6 16-3-7-7-1z"/>',
+ more:'<circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>',
+ mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+ bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+ camera:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+ link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+ ban:'<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+ rotate:'<path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4"/>',
+ doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+ out:'<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>'
+};
+const ic=(n,extra)=>P(ICONS[n]||'',extra);
+const icDown=()=>P(ICONS.up,'style="transform:rotate(180deg)"');
+const LOGO=`<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#0F6E6E"/><path d="M5 19.5c2.6 0 3.4-8 7-8s2.6 6.5-.4 6.5-1.7-6.2 3.2-6.2" fill="none" stroke="#F2A93B" stroke-width="2.6" stroke-linecap="round"/><path d="M14.8 11.8H27" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+
+const EXAMPLE_TEXT="Humare paas roz 35-40 orders WhatsApp pe aate hain retailers se — kabhi text, kabhi voice note, kabhi saree ki photo bhej dete hain. Mehul (staff) sab orders ek register mein likhta hai. Phir godown jaake check karta hai stock hai ya nahi. Raat ko main Tally mein invoice banata hoon, uska PDF WhatsApp pe bhejta hoon. Payment 30 din se late ho jaaye toh main khud phone karke yaad dilata hoon, aur ek alag diary mein likhta hoon kisne diya kisne nahi. Mahine ke end mein CA bank statement se diary match karta hai. Roz 3-4 ghante sirf isi mein chale jaate hain.";
+
+const S={
+ role:'guest', userKind:'new', name:'Rajesh Patel', first:'Rajesh', email:'rajesh.p@example.com', method:'Google',
+ guestUsed:false, guestReport:false, claimGuest:false,
+ reports:[], used:0, lang:'en',
+ text:'', textErr:false, files:[], fileErrs:[],
+ answers:{q1:['WhatsApp','Tally','Paper register or diary']}, skipped:{},
+ flow:{mode:'new',from:null},
+ failNext:false, blocked:false, dataShare:false,
+ chats:{}, ratings:{}, shares:{}, shareTarget:'A', deleted:[],
+ pendingEmail:'', signinErr:'', contact:{name:'',email:'',topic:'',msg:''}, contactErr:{},
+ userFilter:'all', userQuery:'', fbFilter:'all', delErr:false
+};
+const LIMIT=10;
+const left=()=>Math.max(0,LIMIT-S.used);
+
+let timers=[];
+function clearTimers(){timers.forEach(clearTimeout);timers=[];}
+function go(r){ if(location.hash==='#/'+r) render(); else location.hash='#/'+r; }
+function cur(){ return decodeURIComponent(location.hash.replace(/^#\/?/,''))||'landing'; }
+function needUser(){ if(S.role!=='user'){ setTimeout(()=>go('signin'),0); return true;} return false; }
+function needAdmin(){ if(S.role!=='admin'){ setTimeout(()=>go('signin'),0); return true;} return false; }
+function render(){
+  clearTimers(); closeModal();
+  const parts=cur().split('/'); const name=parts[0], arg=parts[1];
+  const fn=SCREENS[name]||SCREENS.notfound;
+  const html=fn(arg);
+  $('#app').innerHTML=html;
+  document.body.classList.toggle('has-bar',!!$('#app .bar'));
+  renderHeader(name); renderFooter(name);
+  window.scrollTo(0,0);
+  if(AFTER[name]) AFTER[name](arg);
+}
+function refresh(){ const y=window.scrollY; const parts=cur().split('/'); const fn=SCREENS[parts[0]]||SCREENS.notfound; $('#app').innerHTML=fn(parts[1]); document.body.classList.toggle('has-bar',!!$('#app .bar')); renderHeader(parts[0]); window.scrollTo(0,y); }
+window.addEventListener('hashchange',render);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+function modal(html,wide){ $('#modal-root').innerHTML=`<div class="overlay" onclick="if(event.target===this)closeModal()"><div class="sheet ${wide?'wide':''}" role="dialog" aria-modal="true"><button class="sheet-x" onclick="closeModal()" aria-label="Close">${ic('x')}</button>${html}</div></div>`; document.body.style.overflow='hidden'; const f=$('#modal-root [autofocus]'); if(f) setTimeout(()=>f.focus(),50); }
+function closeModal(){ $('#modal-root').innerHTML=''; document.body.style.overflow=''; }
+function toast(m){ const t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); t.innerHTML=m; const r=$('#toast-root'); r.innerHTML=''; r.appendChild(t); setTimeout(()=>t.remove(),3400); }
+
+function renderHeader(name){
+  let right='';
+  const logoHref = S.role==='user'?'#/dashboard':S.role==='admin'?'#/admin':'#/landing';
+  if(S.role==='admin'){
+    right=`<span class="badge b-warn">Admin</span><button class="btn btn-secondary btn-sm" onclick="signOut()">Sign out</button>`;
+  } else if(S.role==='user'){
+    right=`<a class="btn btn-ghost btn-sm navlink" href="#/dashboard">My analyses</a>
+      <a class="btn btn-primary btn-sm" href="#/input" onclick="startNew()" aria-label="New analysis">${ic('plus')}<span class="hide-xs">New analysis</span></a>
+      <a class="avatar" href="#/settings" aria-label="Account settings">RP</a>`;
+  } else {
+    right=`<a class="btn btn-ghost btn-sm navlink" href="#/sample">Sample report</a>
+      <a class="btn btn-secondary btn-sm" href="#/signin" onclick="S.claimGuest=S.guestReport">Sign in</a>
+      <a class="btn btn-primary btn-sm" href="#/input">Try it free</a>`;
+  }
+  $('#hdr').innerHTML=`<header class="hdr"><div class="wrap"><a class="logo" href="${logoHref}" aria-label="Untangle home">${LOGO}Untangle</a>${right}</div></header>`;
+}
+function renderFooter(){
+  $('#ftr').innerHTML=`<footer class="ftr"><div class="wrap">
+    <nav aria-label="Footer"><a href="#/privacy">Privacy policy</a><a href="#/terms">Terms of use</a><a href="#/contact">Contact us</a></nav>
+    <p class="tiny" style="margin:0">Untangle gives advice only — it never logs in to, connects to or changes your apps.<br>© 2026 Untangle · Made in India</p>
+  </div></footer>`;
+}
+function signIn(method){
+  if(method==='admin'){ S.role='admin'; go('admin'); toast('Signed in to the admin panel'); return; }
+  if(S.blocked){ go('suspended'); return; }
+  S.method = method==='microsoft'?'Microsoft':method==='email'?'Email link':'Google';
+  S.role='user';
+  if(S.claimGuest && S.guestReport){ setupUser('claimed'); S.guestReport=false; S.claimGuest=false; go('dashboard'); toast('Your report from earlier is saved to your account'); return; }
+  if(!S.reports.length && S.userKind!=='new') setupUser(S.userKind);
+  if(S.userKind==='new' && !S.reports.length) setupUser('new');
+  go('dashboard');
+}
+function signOut(){ S.role='guest'; S.lang='en'; go('landing'); toast('You’ve signed out'); }
+function setupUser(kind){
+  S.userKind=kind; S.role='user'; S.lang='en'; S.chats={}; S.ratings={}; S.shares={};
+  if(kind==='new'){ S.reports=[]; S.used=0; }
+  if(kind==='claimed'){ S.reports=[{id:'A',key:'A',date:'4 Oct 2026',claimed:true}]; S.used=0; }
+  if(kind==='returning'||kind==='limit'){ S.reports=[{id:'A',key:'A',date:'2 Oct 2026',files:true},{id:'B',key:'B',date:'1 Oct 2026'}]; S.used= kind==='limit'?10:2;
+    S.chats.A={used:1,msgs:[{me:1,t:'Idea 2 ka step 4 samajh nahi aaya — dropdown kaise banate hain?'},{me:0,t:'Bilkul! Phone par: (1) “In stock?” column ke upar wala letter tap karein. (2) Teen dots ⋮ → “Data validation”. (3) “Add rule” → Criteria mein “Dropdown” chunein. (4) Do options likhein: Yes aur No. (5) “Done” dabayein. Ab har row mein ek chhota teer aayega jisse Mehul Yes ya No chun sakta hai.'}]};
+  }
+  S.deleted=[];
+}
+function entryById(id){ return S.reports.find(e=>e.id===id); }
+function startNew(){ S.flow={mode:'new',from:null}; S.files=[]; S.fileErrs=[]; S.textErr=false; S.text=''; S.skipped={}; S.answers={q1:['WhatsApp','Tally','Paper register or diary']}; }
+
+/* ============ DATA ============ */
+const LBL={
+ en:{summary:'Your process, cleaned up',summaryHelp:'Check that we understood it correctly. If something is wrong, use “Edit and re-run”.',bottlenecks:'Where time and effort get stuck',bnHelp:'Slowest, most manual or most error-prone steps first.',ideas:'Ideas to automate or simplify',ideasHelp:'Rated honestly — including ideas that would work but aren’t worth it for you.',order:'Recommended order',notes:'Where we’re not sure',notesHelp:'These estimates may be off because some information was missing.',impact:'Time saved',cost:'Cost',complexity:'Difficulty',tools:'Tools',replaces:'Replaces',guide:'Show step-by-step guide',guideSkip:'If you still want to explore it',gIdeas:'ideas',gNow:'to do now',gSaved:'could be saved',jump:['Summary','Bottlenecks','Ideas','Order','Notes'],created:'Created',rerun:' (re-run)'},
+ hi:{summary:'आपकी प्रक्रिया, साफ़ शब्दों में',summaryHelp:'देख लीजिए कि हमने सही समझा है। कुछ ग़लत हो तो “Edit and re-run” से बदलें।',bottlenecks:'कहाँ समय और मेहनत अटकती है',bnHelp:'सबसे धीमे, सबसे ज़्यादा हाथ के काम वाले या ग़लती वाले चरण पहले।',ideas:'ऑटोमेशन और काम आसान करने के सुझाव',ideasHelp:'ईमानदारी से आँके गए — उन सुझावों समेत जो काम तो करेंगे पर आपके लिए फ़ायदेमंद नहीं।',order:'किस क्रम में करें',notes:'जहाँ हमें पूरा भरोसा नहीं',notesHelp:'कुछ जानकारी नहीं मिली, इसलिए ये अनुमान थोड़े ऊपर-नीचे हो सकते हैं।',impact:'समय की बचत',cost:'लागत',complexity:'कितना मुश्किल',tools:'टूल',replaces:'किसकी जगह',guide:'चरण-दर-चरण गाइड देखें',guideSkip:'अगर फिर भी देखना चाहें',gIdeas:'सुझाव',gNow:'अभी करने लायक',gSaved:'की बचत संभव',jump:['सार','रुकावटें','सुझाव','क्रम','नोट्स'],created:'बनाया गया',rerun:' (दोबारा चलाया गया)'}
+};
+const VERD={now:{cls:'b-good',en:'Do now',hi:'अभी करें'},plan:{cls:'b-warn',en:'Worth planning',hi:'योजना बनाएँ'},skip:{cls:'b-bad',en:'Not worth it',hi:'फ़ायदेमंद नहीं'}};
+const CX={en:['Easy','Moderate','Hard','Needs a developer'],hi:['आसान','मध्यम','कठिन','डेवलपर चाहिए']};
+const SEV={en:{h:'High',m:'Medium',l:'Low'},hi:{h:'ज़्यादा',m:'मध्यम',l:'कम'}};
+
+const REPORTS={
+A:{
+ en:{title:'WhatsApp orders to Tally invoices and payments',date:'2 Oct 2026',glance:['5','3','~1 hr 40 min a day'],
+  steps:['Retailers send orders on WhatsApp — as text, voice notes or photos of saree designs.','Mehul copies every order by hand into a paper register.','Mehul walks to the godown to check whether each item is in stock.','At night, you type each invoice into Tally.','The invoice PDF is sent to the customer on WhatsApp.','If a payment is more than 30 days late, you phone the customer and note it in a separate diary.','At month end, your CA matches the bank statement against the diary.'],
+  bottlenecks:[
+   {t:'Copying orders into the register',time:'~75 min a day',sev:'h',why:'Voice notes and photos have to be listened to and decoded; quantities often get written down wrong.'},
+   {t:'Typing invoices into Tally at night',time:'~60 min a day',sev:'h',why:'Every order is written twice — once in the register, then again in Tally.'},
+   {t:'Chasing late payments by phone',time:'~2 hrs a week',sev:'h',why:'Who owes what lives only in your diary and your memory, so some names get missed.'},
+   {t:'Walking to the godown to check stock',time:'~40 min a day',sev:'m',why:'A trip for every order, even for designs that are always in stock.'},
+   {t:'Matching the diary with the bank statement',time:'~3 hrs a month',sev:'l',why:'Takes your CA’s time, but happens only once a month.'}],
+  ideas:[
+   {t:'Give customers a fixed order format on WhatsApp Business',v:'now',reason:'Free, and you can set it up this afternoon.',replaces:'Messy voice-note and photo orders that Mehul has to decode and copy.',how:'Switch to the free WhatsApp Business app, add your saree designs to its Catalogue with short design codes, and save a Quick Reply that asks customers to order as “Design code – Quantity – Colour”.',tools:'WhatsApp Business app (free — you already use WhatsApp)',impact:'About 40 min a day, and fewer wrong quantities',cost:'₹0 setup · ₹0 a month',cx:1,
+    steps:['Back up your WhatsApp chats (Settings → Chats → Chat backup).','Install “WhatsApp Business” from the Play Store and register it with your shop number. Your chats move across.','Open Business tools → Catalogue. Add your 30 best-selling designs with a photo, a short code like SR-104, and the price.','Open Business tools → Quick replies. Save one called /order: “Please send your order as: Design code – Quantity – Colour. Example: SR-104 – 20 – Maroon.”','Whenever an order arrives as a voice note, reply with /order. Within 2–3 weeks most retailers will follow the format.']},
+   {t:'Replace the paper register with one shared Google Sheet',v:'now',reason:'Ends double-writing and handwriting mistakes.',replaces:'The paper order register and copying orders into it.',how:'Mehul types each order into a Google Sheet on his phone instead of the register. You see every order live and can copy it into Tally without reading handwriting.',tools:'Google Sheets (free)',impact:'About 30 min a day; no lost pages',cost:'₹0 setup · ₹0 a month',cx:1,
+    steps:['On your phone, open Google Sheets (or install it) and create a sheet called “Orders 2026”.','Add columns: Date, Retailer, Design code, Quantity, Colour, In stock?, Invoiced?','Tap Share and add Mehul’s Gmail address as an “Editor”.','Turn “In stock?” and “Invoiced?” into dropdowns: Data → Data validation → Dropdown → Yes / No.','Ask Mehul to enter orders here from tomorrow. Keep the old register for one week as a backup.']},
+   {t:'Check stock in Tally instead of walking to the godown',v:'plan',reason:'Needs one Sunday to count and enter all your stock first.',replaces:'A walk to the godown for every order.',how:'Tally can already keep track of stock if inventory is switched on. Once your opening stock is entered, Mehul checks the “Stock Summary” on the shop computer instead of walking to the godown.',tools:'Tally (you already use it)',impact:'About 30 min a day',cost:'About ₹2,000 one-time if your CA enters the opening stock · ₹0 a month',cx:2,
+    steps:['Ask your CA whether inventory is switched on in your Tally company (F11 → Inventory features).','Pick a Sunday and count all stock in the godown, design by design.','Enter these counts as opening stock in Tally — your CA can do this in 2–3 hours.','From Monday, every invoice you make in Tally reduces stock automatically.','Once a month, count 10 random designs in the godown to check Tally is accurate.']},
+   {t:'Send payment reminders every Monday from a ready-made list',v:'now',reason:'No new tools, and no pending payment gets forgotten.',replaces:'Remembering who to call, and the separate payment diary.',how:'Every Monday, open Tally’s list of pending payments and send a saved WhatsApp reminder to everyone more than 30 days late.',tools:'Tally (Outstanding Receivables report) and WhatsApp Business Quick Replies',impact:'About 2 hrs a week; payments likely arrive sooner',cost:'₹0 setup · ₹0 a month',cx:1,
+    steps:['In Tally, go to Display → Statements of Accounts → Outstandings → Receivables.','Sort by “Overdue by days” and note everyone over 30 days.','In WhatsApp Business, save a Quick Reply called /due: “Namaste {name} ji, a gentle reminder that ₹{amount} for bill {number} is pending. Please let us know once paid. Thank you — Patel Saree Traders.”','Every Monday at 11 am, send /due to each name on the list and fill in the amount.','Mark who has paid in the Google Sheet from idea 2, so you no longer need the separate diary.']},
+   {t:'A WhatsApp ordering bot connected directly to Tally',v:'skip',reason:'At 40 orders a day, ideas 1, 2 and 4 give you most of this benefit for free. Look again if orders cross 150 a day.',replaces:'Almost all the manual work of taking orders, checking stock and making invoices.',how:'A developer builds an automatic WhatsApp number that takes orders, checks stock and creates Tally invoices without any staff involvement.',tools:'WhatsApp Business Platform (paid) and a custom Tally connector built by a developer',impact:'Up to 90 min a day',cost:'₹60,000–₹1,20,000 setup · ₹3,000–₹6,000 a month',cx:4,
+    steps:['Write down exactly how an order should flow, using the Google Sheet from idea 2 as the model.','Ask 2–3 local Tally partners for a written quote that includes monthly running costs.','Ask each one how they will handle voice-note and photo orders — most bots cannot.','Only go ahead if the cost pays for itself within 12 months in staff time saved.']}],
+  order:[{when:'This week',what:'Idea 1 — Fixed order format on WhatsApp Business',why:'Free, one afternoon, and makes every later step easier.',v:'now'},{when:'This week',what:'Idea 4 — Monday payment reminders',why:'Free, and brings pending money in sooner.',v:'now'},{when:'Next week',what:'Idea 2 — Shared Google Sheet instead of the register',why:'Easiest once orders arrive in the new format.',v:'now'},{when:'This month',what:'Idea 3 — Check stock in Tally',why:'Needs one Sunday of counting first.',v:'plan'},{when:'Skip for now',what:'Idea 5 — WhatsApp ordering bot',why:'Too costly for 40 orders a day.',v:'skip'}],
+  notes:['Time saved for idea 3 is a rough guess: you didn’t say how many designs you keep in stock.','The cost of idea 5 is a wide range: developer prices vary a lot, and we don’t know whether you’d need voice-note orders handled.'],
+  fileNote:'One file couldn’t be read: “stock-register-scan.jpg” was too blurry, so stock numbers from it weren’t used.',
+  guestNote:'You skipped the budget question, so we assumed you’d like to spend ₹0–₹500 a month.'},
+ hi:{title:'WhatsApp ऑर्डर से Tally बिल और पेमेंट तक',date:'2 अक्टूबर 2026',glance:['5','3','रोज़ ~1 घंटा 40 मिनट'],
+  steps:['रिटेलर WhatsApp पर ऑर्डर भेजते हैं — मैसेज, वॉइस नोट या साड़ी की फ़ोटो के रूप में।','मेहुल हर ऑर्डर हाथ से काग़ज़ के रजिस्टर में लिखते हैं।','मेहुल गोदाम जाकर देखते हैं कि हर माल स्टॉक में है या नहीं।','रात को आप हर बिल Tally में टाइप करते हैं।','बिल का PDF WhatsApp पर ग्राहक को भेजा जाता है।','30 दिन से ज़्यादा देर होने पर आप ग्राहक को फ़ोन करते हैं और एक अलग डायरी में लिखते हैं।','महीने के अंत में आपके CA बैंक स्टेटमेंट को डायरी से मिलाते हैं।'],
+  bottlenecks:[
+   {t:'ऑर्डर रजिस्टर में उतारना',time:'रोज़ ~75 मिनट',sev:'h',why:'वॉइस नोट सुनने और फ़ोटो समझने में समय जाता है; मात्रा अक्सर ग़लत लिख जाती है।'},
+   {t:'रात को Tally में बिल टाइप करना',time:'रोज़ ~60 मिनट',sev:'h',why:'हर ऑर्डर दो बार लिखा जाता है — एक बार रजिस्टर में, फिर Tally में।'},
+   {t:'बकाया पेमेंट के लिए फ़ोन करना',time:'हफ़्ते में ~2 घंटे',sev:'h',why:'किसका कितना बाकी है, यह सिर्फ़ डायरी और आपकी याद में है, इसलिए कुछ नाम छूट जाते हैं।'},
+   {t:'स्टॉक देखने गोदाम जाना',time:'रोज़ ~40 मिनट',sev:'m',why:'हर ऑर्डर पर चलकर जाना पड़ता है, उन डिज़ाइनों के लिए भी जो हमेशा स्टॉक में रहते हैं।'},
+   {t:'डायरी और बैंक स्टेटमेंट का मिलान',time:'महीने में ~3 घंटे',sev:'l',why:'CA का समय लगता है, पर यह महीने में एक बार ही होता है।'}],
+  ideas:[
+   {t:'WhatsApp Business पर ऑर्डर का एक तय फ़ॉर्मेट',v:'now',reason:'मुफ़्त है, और आज दोपहर में ही शुरू हो सकता है।',replaces:'वॉइस नोट और फ़ोटो वाले बिखरे ऑर्डर, जिन्हें मेहुल को समझकर लिखना पड़ता है।',how:'मुफ़्त WhatsApp Business ऐप पर जाएँ, अपनी साड़ियों को छोटे डिज़ाइन कोड के साथ कैटलॉग में डालें, और एक Quick Reply सेव करें जो ग्राहकों से “डिज़ाइन कोड – मात्रा – रंग” में ऑर्डर माँगे।',tools:'WhatsApp Business ऐप (मुफ़्त — आप WhatsApp पहले से इस्तेमाल करते हैं)',impact:'रोज़ लगभग 40 मिनट, और मात्रा की ग़लतियाँ कम',cost:'₹0 सेटअप · ₹0 महीना',cx:1,
+    steps:['अपनी WhatsApp चैट का बैकअप लें (Settings → Chats → Chat backup)।','Play Store से “WhatsApp Business” इंस्टॉल करें और दुकान के नंबर से रजिस्टर करें। आपकी चैट साथ आ जाएँगी।','Business tools → Catalogue खोलें। अपने 30 सबसे ज़्यादा बिकने वाले डिज़ाइन फ़ोटो, SR-104 जैसे छोटे कोड और दाम के साथ डालें।','Business tools → Quick replies में /order नाम से यह मैसेज सेव करें: “कृपया ऑर्डर ऐसे भेजें: डिज़ाइन कोड – मात्रा – रंग। जैसे: SR-104 – 20 – मरून।”','जब भी वॉइस नोट में ऑर्डर आए, जवाब में /order भेजें। 2–3 हफ़्तों में ज़्यादातर रिटेलर इसी फ़ॉर्मेट में भेजने लगेंगे।']},
+   {t:'काग़ज़ी रजिस्टर की जगह एक शेयर की हुई Google Sheet',v:'now',reason:'दो बार लिखना और लिखावट की ग़लतियाँ ख़त्म।',replaces:'काग़ज़ का ऑर्डर रजिस्टर और उसमें ऑर्डर उतारना।',how:'मेहुल रजिस्टर की जगह फ़ोन पर Google Sheet में हर ऑर्डर लिखें। आप हर ऑर्डर तुरंत देख सकेंगे और Tally में डालते समय लिखावट पढ़नी नहीं पड़ेगी।',tools:'Google Sheets (मुफ़्त)',impact:'रोज़ लगभग 30 मिनट; पन्ने खोने का डर नहीं',cost:'₹0 सेटअप · ₹0 महीना',cx:1,
+    steps:['फ़ोन पर Google Sheets खोलें (या इंस्टॉल करें) और “Orders 2026” नाम की शीट बनाएँ।','कॉलम बनाएँ: तारीख़, रिटेलर, डिज़ाइन कोड, मात्रा, रंग, स्टॉक में?, बिल बना?','Share पर टैप करें और मेहुल का Gmail पता “Editor” के रूप में जोड़ें।','“स्टॉक में?” और “बिल बना?” को ड्रॉपडाउन बनाएँ: Data → Data validation → Dropdown → Yes / No।','कल से मेहुल यहीं ऑर्डर लिखें। एक हफ़्ते तक पुराना रजिस्टर भी बैकअप के तौर पर रखें।']},
+   {t:'गोदाम जाने की जगह Tally में स्टॉक देखें',v:'plan',reason:'पहले एक रविवार पूरा स्टॉक गिनकर डालना होगा।',replaces:'हर ऑर्डर पर स्टॉक देखने गोदाम तक जाना।',how:'अगर Tally में इन्वेंटरी चालू हो, तो वह स्टॉक का हिसाब ख़ुद रख सकता है। एक बार शुरुआती स्टॉक डालने के बाद, मेहुल गोदाम जाने की जगह दुकान के कंप्यूटर पर “Stock Summary” देख लेंगे।',tools:'Tally (आप पहले से इस्तेमाल करते हैं)',impact:'रोज़ लगभग 30 मिनट',cost:'CA से शुरुआती स्टॉक डलवाने में लगभग ₹2,000 एक बार · ₹0 महीना',cx:2,
+    steps:['अपने CA से पूछें कि आपकी Tally कंपनी में इन्वेंटरी चालू है या नहीं (F11 → Inventory features)।','किसी रविवार को गोदाम का पूरा स्टॉक, डिज़ाइन के हिसाब से गिनें।','यह गिनती Tally में शुरुआती स्टॉक के रूप में डालें — CA यह 2–3 घंटे में कर सकते हैं।','सोमवार से Tally में बनने वाला हर बिल स्टॉक अपने-आप घटा देगा।','महीने में एक बार गोदाम में 10 डिज़ाइन गिनकर देखें कि Tally सही है।']},
+   {t:'हर सोमवार तैयार सूची से पेमेंट रिमाइंडर',v:'now',reason:'कोई नया टूल नहीं, और कोई बकाया भूला नहीं जाएगा।',replaces:'याद के भरोसे फ़ोन करना और पेमेंट की अलग डायरी।',how:'हर सोमवार Tally की बकाया पेमेंट वाली सूची खोलें और 30 दिन से ज़्यादा देर वाले हर ग्राहक को सेव किया हुआ WhatsApp रिमाइंडर भेजें।',tools:'Tally (Outstanding Receivables रिपोर्ट) और WhatsApp Business Quick Replies',impact:'हफ़्ते में लगभग 2 घंटे; पेमेंट जल्दी आने की संभावना',cost:'₹0 सेटअप · ₹0 महीना',cx:1,
+    steps:['Tally में Display → Statements of Accounts → Outstandings → Receivables पर जाएँ।','“Overdue by days” से क्रम लगाएँ और 30 दिन से ज़्यादा वाले नाम नोट करें।','WhatsApp Business में /due नाम से Quick Reply सेव करें: “नमस्ते {नाम} जी, बिल {नंबर} का ₹{रकम} बाकी है। पेमेंट करने के बाद कृपया बता दें। धन्यवाद — पटेल साड़ी ट्रेडर्स।”','हर सोमवार सुबह 11 बजे सूची के हर नाम को /due भेजें और रकम भर दें।','किसने पेमेंट किया, यह सुझाव 2 वाली Google Sheet में लिखें, ताकि अलग डायरी की ज़रूरत न रहे।']},
+   {t:'Tally से सीधे जुड़ा WhatsApp ऑर्डर बॉट',v:'skip',reason:'रोज़ 40 ऑर्डर पर, सुझाव 1, 2 और 4 यही फ़ायदा ज़्यादातर मुफ़्त में दे देते हैं। ऑर्डर रोज़ 150 से ऊपर जाएँ तो फिर सोचें।',replaces:'ऑर्डर लेने, स्टॉक देखने और बिल बनाने का लगभग सारा हाथ का काम।',how:'एक डेवलपर ऐसा ऑटोमैटिक WhatsApp नंबर बनाए जो ऑर्डर ले, स्टॉक देखे और बिना स्टाफ़ के Tally में बिल बना दे।',tools:'WhatsApp Business Platform (पेड) और डेवलपर का बनाया Tally कनेक्टर',impact:'रोज़ 90 मिनट तक',cost:'₹60,000–₹1,20,000 सेटअप · ₹3,000–₹6,000 महीना',cx:4,
+    steps:['सुझाव 2 वाली Google Sheet को मॉडल मानकर लिखें कि ऑर्डर कैसे आगे बढ़ना चाहिए।','2–3 स्थानीय Tally पार्टनर से लिखित कोटेशन लें, जिसमें हर महीने का ख़र्च भी हो।','हर एक से पूछें कि वे वॉइस नोट और फ़ोटो वाले ऑर्डर कैसे संभालेंगे — ज़्यादातर बॉट नहीं संभाल पाते।','तभी आगे बढ़ें जब ख़र्च 12 महीनों में स्टाफ़ के बचे समय से निकल आए।']}],
+  order:[{when:'इस हफ़्ते',what:'सुझाव 1 — WhatsApp Business पर ऑर्डर फ़ॉर्मेट',why:'मुफ़्त, एक दोपहर का काम, और आगे का हर चरण आसान।',v:'now'},{when:'इस हफ़्ते',what:'सुझाव 4 — सोमवार के पेमेंट रिमाइंडर',why:'मुफ़्त, और बकाया पैसा जल्दी आता है।',v:'now'},{when:'अगले हफ़्ते',what:'सुझाव 2 — रजिस्टर की जगह Google Sheet',why:'नया ऑर्डर फ़ॉर्मेट शुरू होने के बाद सबसे आसान।',v:'now'},{when:'इस महीने',what:'सुझाव 3 — Tally में स्टॉक',why:'पहले एक रविवार स्टॉक गिनना होगा।',v:'plan'},{when:'अभी छोड़ दें',what:'सुझाव 5 — WhatsApp ऑर्डर बॉट',why:'रोज़ 40 ऑर्डर के लिए बहुत महँगा।',v:'skip'}],
+  notes:['सुझाव 3 की समय-बचत एक मोटा अनुमान है: आपने नहीं बताया कि स्टॉक में कितने डिज़ाइन रहते हैं।','सुझाव 5 की लागत का दायरा बड़ा है: डेवलपर के दाम बहुत अलग-अलग होते हैं, और हमें नहीं पता कि वॉइस नोट वाले ऑर्डर भी संभालने होंगे या नहीं।'],
+  fileNote:'एक फ़ाइल पढ़ी नहीं जा सकी: “stock-register-scan.jpg” धुंधली थी, इसलिए उसके स्टॉक नंबर इस्तेमाल नहीं हुए।',
+  guestNote:'आपने बजट वाला सवाल छोड़ दिया, इसलिए हमने माना कि आप महीने में ₹0–₹500 ख़र्च करना चाहेंगे।'}
+},
+B:{
+ en:{title:'Monthly staff attendance and salary',date:'1 Oct 2026',glance:['3','2','~3 hrs a month'],
+  steps:['Each of your 6 staff signs a paper attendance register when they arrive.','Advances given during the month are written at the back of the same register.','On the last day of the month, you add up days present, overtime and advances on a calculator.','You pay each person by UPI and write the amount in the register.'],
+  bottlenecks:[{t:'Adding up attendance and overtime by hand',time:'~3 hrs a month',sev:'h',why:'Done late at night on a calculator; one mistake means re-checking everything.'},{t:'Keeping track of advances',time:'~30 min a month',sev:'m',why:'Advances are easy to miss when they are on a different page.'}],
+  ideas:[
+   {t:'A Google Sheet that works out salaries for you',v:'now',reason:'Free, and removes the most error-prone step.',replaces:'Month-end calculator work.',how:'Keep attendance in a Google Sheet with one row per day. A simple formula adds up days present, overtime and advances automatically.',tools:'Google Sheets (free)',impact:'About 2½ hrs a month',cost:'₹0 setup · ₹0 a month',cx:1,
+    steps:['Create a Google Sheet called “Staff 2026”, with one tab per staff member.','Add columns: Date, Present? (Yes/No), Overtime hours, Advance ₹.','In the bottom row type =COUNTIF(B2:B32,"Yes") to count days present.','Fill in attendance each morning — it takes about a minute. Salaries are ready at month end.']},
+   {t:'Record advances the moment you give them',v:'now',reason:'Takes 10 seconds each time and avoids payday arguments.',replaces:'The separate advances page at the back of the register.',how:'Fill in the “Advance ₹” column in the same sheet as soon as you hand over cash or send money by UPI. The salary total subtracts it automatically.',tools:'Google Sheets (free)',impact:'About 30 min a month; no forgotten advances',cost:'₹0 setup · ₹0 a month',cx:1,
+    steps:['Add a bottom-row formula =SUM(E2:E32) to total the advances.','Make the salary cell: days present × daily wage + overtime pay − total advances.','Each time you give an advance, open the sheet and type the amount on that day’s row.']},
+   {t:'A fingerprint attendance machine',v:'skip',reason:'With 6 staff, the free sheet in idea 1 already does this job.',replaces:'The paper attendance register.',how:'Staff press a finger on a small machine when they arrive. It keeps the record and gives you a monthly attendance report.',tools:'Biometric attendance device with its own software',impact:'About 1 hr a month',cost:'₹4,000–₹8,000 one-time · ₹0 a month',cx:2,
+    steps:['Only consider it if your staff grows beyond 15 people.','Ask the seller whether reports can be exported to Excel or Google Sheets.','Check that the price includes installation and one year of service.']}],
+  order:[{when:'This week',what:'Idea 1 — Salary Google Sheet',why:'Free and saves the most time.',v:'now'},{when:'Same day',what:'Idea 2 — Record advances',why:'Uses the same sheet.',v:'now'},{when:'Skip for now',what:'Idea 3 — Fingerprint machine',why:'Not needed for 6 staff.',v:'skip'}],
+  notes:['Overtime rules weren’t described, so we assumed everyone is paid the same hourly rate for overtime.'],fileNote:'',guestNote:''},
+ hi:{title:'हर महीने स्टाफ़ की हाज़िरी और सैलरी',date:'1 अक्टूबर 2026',glance:['3','2','महीने में ~3 घंटे'],
+  steps:['आपके 6 कर्मचारी आते समय काग़ज़ के हाज़िरी रजिस्टर में साइन करते हैं।','महीने में दिया गया एडवांस उसी रजिस्टर के पीछे लिखा जाता है।','महीने के आख़िरी दिन आप कैलकुलेटर से हाज़िरी के दिन, ओवरटाइम और एडवांस जोड़ते हैं।','आप हर व्यक्ति को UPI से पेमेंट करते हैं और रकम रजिस्टर में लिखते हैं।'],
+  bottlenecks:[{t:'हाज़िरी और ओवरटाइम हाथ से जोड़ना',time:'महीने में ~3 घंटे',sev:'h',why:'देर रात कैलकुलेटर पर होता है; एक ग़लती पर सब दोबारा जाँचना पड़ता है।'},{t:'एडवांस का हिसाब रखना',time:'महीने में ~30 मिनट',sev:'m',why:'अलग पन्ने पर होने से एडवांस छूट जाते हैं।'}],
+  ideas:[
+   {t:'एक Google Sheet जो सैलरी ख़ुद जोड़ दे',v:'now',reason:'मुफ़्त है और सबसे ज़्यादा ग़लती वाला काम हटा देता है।',replaces:'महीने के अंत का कैलकुलेटर वाला काम।',how:'हाज़िरी Google Sheet में रखें, हर दिन की एक पंक्ति। एक आसान फ़ॉर्मूला हाज़िरी के दिन, ओवरटाइम और एडवांस अपने-आप जोड़ देगा।',tools:'Google Sheets (मुफ़्त)',impact:'महीने में लगभग 2½ घंटे',cost:'₹0 सेटअप · ₹0 महीना',cx:1,
+    steps:['“Staff 2026” नाम की Google Sheet बनाएँ, हर कर्मचारी के लिए एक टैब।','कॉलम बनाएँ: तारीख़, आया? (Yes/No), ओवरटाइम घंटे, एडवांस ₹।','नीचे की पंक्ति में लिखें =COUNTIF(B2:B32,"Yes") — इससे हाज़िरी के दिन गिने जाएँगे।','हर सुबह लगभग एक मिनट में हाज़िरी भरें। महीने के अंत में सैलरी तैयार मिलेगी।']},
+   {t:'एडवांस देते ही उसे लिख लें',v:'now',reason:'हर बार 10 सेकंड लगते हैं और सैलरी वाले दिन बहस नहीं होती।',replaces:'रजिस्टर के पीछे एडवांस का अलग पन्ना।',how:'नकद या UPI से एडवांस देते ही उसी शीट के “एडवांस ₹” कॉलम में लिख दें। सैलरी का जोड़ उसे अपने-आप घटा देगा।',tools:'Google Sheets (मुफ़्त)',impact:'महीने में लगभग 30 मिनट; कोई एडवांस नहीं छूटेगा',cost:'₹0 सेटअप · ₹0 महीना',cx:1,
+    steps:['नीचे की पंक्ति में फ़ॉर्मूला डालें =SUM(E2:E32) — इससे कुल एडवांस जुड़ेगा।','सैलरी वाला सेल बनाएँ: हाज़िरी के दिन × रोज़ की मज़दूरी + ओवरटाइम − कुल एडवांस।','जब भी एडवांस दें, शीट खोलकर उस दिन की पंक्ति में रकम लिखें।']},
+   {t:'फ़िंगरप्रिंट हाज़िरी मशीन',v:'skip',reason:'6 कर्मचारियों के लिए सुझाव 1 वाली मुफ़्त शीट ही यह काम कर देती है।',replaces:'काग़ज़ का हाज़िरी रजिस्टर।',how:'कर्मचारी आते समय एक छोटी मशीन पर उंगली रखते हैं। मशीन रिकॉर्ड रखती है और महीने की हाज़िरी रिपोर्ट देती है।',tools:'बायोमेट्रिक हाज़िरी मशीन और उसका सॉफ़्टवेयर',impact:'महीने में लगभग 1 घंटा',cost:'₹4,000–₹8,000 एक बार · ₹0 महीना',cx:2,
+    steps:['तभी सोचें जब स्टाफ़ 15 से ज़्यादा हो जाए।','विक्रेता से पूछें कि रिपोर्ट Excel या Google Sheets में निकलती है या नहीं।','पक्का करें कि दाम में इंस्टॉलेशन और एक साल की सर्विस शामिल है।']}],
+  order:[{when:'इस हफ़्ते',what:'सुझाव 1 — सैलरी Google Sheet',why:'मुफ़्त और सबसे ज़्यादा समय बचाता है।',v:'now'},{when:'उसी दिन',what:'सुझाव 2 — एडवांस लिखना',why:'उसी शीट में होता है।',v:'now'},{when:'अभी छोड़ दें',what:'सुझाव 3 — फ़िंगरप्रिंट मशीन',why:'6 कर्मचारियों के लिए ज़रूरी नहीं।',v:'skip'}],
+  notes:['ओवरटाइम के नियम नहीं बताए गए थे, इसलिए हमने माना कि सबको एक ही दर से प्रति घंटा ओवरटाइम मिलता है।'],fileNote:'',guestNote:''}
+}};
+
+const CHAT_SUGG=['What if my budget is zero?','Which idea saves the most time?','Explain idea 1 more simply'];
+const CHAT_ANS={
+ A:['Good news: ideas 1, 2 and 4 already cost ₹0. With a zero budget, skip the CA’s help in idea 3 — you and Mehul can enter the opening stock in Tally yourselves over two evenings. You’d still save about 1 hr 40 min a day.','Idea 1, the fixed order format, saves the most — about 40 minutes a day — because it fixes the problem at the very start. When orders arrive clearly, copying and invoicing get faster too.','Right now customers send orders any way they like, so Mehul has to listen, guess and copy. Idea 1 is like giving them a printed order slip: a design code, a quantity and a colour. You save that message once in WhatsApp Business and send it with one tap whenever someone orders in a messy way.'],
+ B:['Ideas 1 and 2 are both free — they only need Google Sheets, which costs nothing. You can skip idea 3 entirely.','Idea 1 saves the most: about 2½ hours every month, because the sheet does the adding up for you.','Instead of adding numbers on a calculator at month end, you tick “Yes” for each person every morning. The sheet counts the days and works out the salary by itself.']
+};
+const CHAT_DEFAULT={en:'Based on your process, I’d still start with idea 1 this week — it’s free and removes the most error-prone step. Tell me which step you’re stuck on and I’ll break it down further.',hinglish:'Aapke process ke hisaab se, main is hafte idea 1 se shuru karne ki salah dunga — yeh free hai aur sabse zyada galti wala kaam hata deta hai. Bataiye kaunsa step samajh nahi aaya, main use aur aasaan karke samjha dunga.',hi:'आपकी प्रक्रिया के हिसाब से, मैं इस हफ़्ते सुझाव 1 से शुरू करने की सलाह दूँगा — यह मुफ़्त है और सबसे ज़्यादा ग़लती वाला काम हटा देता है। बताइए किस चरण में दिक़्क़त है, मैं उसे और आसान करके समझा दूँगा।'};
+
+const QS=[
+ {id:'q1',type:'multi',q:'Which apps or tools do you use for this today?',why:'So we suggest ideas that use what you already have.',opts:['WhatsApp','Tally','Paper register or diary','Excel','Google Sheets','Phone calls','Something else'],note:'We spotted WhatsApp, Tally and a paper register in your description — change anything that’s wrong.'},
+ {id:'q2',type:'single',q:'Are you able to start using new apps for this?',why:'Some people can’t install new apps — for example, at work.',opts:['Yes, I’m open to new apps','Only if they’re free','No — I must use what I already have','I’d need my employer’s approval']},
+ {id:'q3',type:'number',q:'Roughly how many saree designs do you keep in stock?',why:'This changes how long a stock check takes.',suffix:'designs',ph:'For example, 250'},
+ {id:'q4',type:'single',q:'How much money is usually pending for more than 30 days?',why:'Helps us judge what faster payment reminders are worth to you.',opts:['Under ₹50,000','₹50,000 – ₹2 lakh','₹2 lakh – ₹5 lakh','More than ₹5 lakh']},
+ {id:'q5',type:'single',q:'What’s the most you’d spend each month on a fix?',why:'So we only suggest paid tools when they’re clearly worth it.',opts:['₹0 — free only','Up to ₹500','Up to ₹2,000','More than ₹2,000 if it’s worth it']}
+];
+
+const PICK=[{n:'Order-process-SOP.pdf',s:1.2,t:'pdf'},{n:'October-orders.xlsx',s:0.34,t:'xlsx'},{n:'stock-register-scan.jpg',s:2.1,t:'jpg'},{n:'Payment-diary-notes.docx',s:0.08,t:'docx'},{n:'shop-walkthrough.mp4',s:48,t:'mp4'},{n:'Design-catalogue-full.pdf',s:14.6,t:'pdf'}];
+const OK_TYPES=['pdf','docx','xlsx','csv','png','jpg','jpeg'];
+
+const USERS=[
+ {id:1,n:'Rajesh Patel',e:'rajesh.p@example.com',j:'12 Sep 2026',m:'Google',a:2,opt:false,s:'active'},
+ {id:2,n:'Ananya Iyer',e:'ananya.i@example.com',j:'28 Sep 2026',m:'Email link',a:3,opt:false,s:'active'},
+ {id:3,n:'Vikram Menon',e:'vikram.m@example.com',j:'30 Sep 2026',m:'Microsoft',a:6,opt:false,s:'active'},
+ {id:4,n:'Sunita Deshpande',e:'sunita.d@example.com',j:'20 Sep 2026',m:'Google',a:4,opt:true,s:'active'},
+ {id:5,n:'Farhan Qureshi',e:'farhan.q@example.com',j:'2 Oct 2026',m:'Google',a:1,opt:false,s:'active'},
+ {id:6,n:'Gurpreet Kaur',e:'gurpreet.k@example.com',j:'15 Sep 2026',m:'Email link',a:10,opt:true,s:'active'},
+ {id:7,n:'Ravi Teja',e:'ravi.t@example.com',j:'3 Oct 2026',m:'Email link',a:10,opt:false,s:'blocked',flag:'Tried to generate fake GST invoices; 41 rejected requests'}
+];
+const FEEDBACK=[
+ {u:'Rajesh Patel',d:'3 Oct 2026',up:true,c:'The Monday reminder idea alone brought in ₹80,000 of pending payments in one week.',opt:false},
+ {u:'Vikram Menon',d:'1 Oct 2026',up:false,c:'It suggested a tool my company blocks. I had said I can’t install new apps.',opt:false},
+ {u:'Sunita Deshpande',d:'30 Sep 2026',up:true,c:'Very clear steps. My daughter set up the Google Sheet in 10 minutes.',opt:true},
+ {u:'Ananya Iyer',d:'29 Sep 2026',up:true,c:'Loved that it told me the paid CRM wasn’t worth it for 8 clients.',opt:false},
+ {u:'Gurpreet Kaur',d:'27 Sep 2026',up:false,c:'Hindi version was good but the cost for the courier idea seemed too low.',opt:true}
+];
+
+/* ============ REPORT ============ */
+const meter=n=>`<span class="meter" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</span>`;
+const sevBar=s=>`<span class="sev ${s}" aria-hidden="true"><i></i><i></i><i></i></span>`;
+function entryTitle(e,L){ const d=REPORTS[e.key][L]; return d.title+(e.rerun?LBL[L].rerun:''); }
+function jumpTo(id){ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+function reportBody(key,mode,entry,L){
+  const d=REPORTS[key][L], lb=LBL[L];
+  let notes=[...d.notes];
+  if(mode==='owner'&&entry&&entry.files&&d.fileNote) notes.push(d.fileNote);
+  if((mode==='guest'||mode==='sample'||(entry&&entry.claimed))&&d.guestNote) notes.push(d.guestNote);
+  const ideas=d.ideas.map((it,i)=>`
+   <article class="card idea v-${it.v}" id="idea-${i+1}">
+    <div class="idea-hd"><span class="idea-num">${i+1}</span><div><h3>${it.t}</h3><span class="badge ${VERD[it.v].cls}">${VERD[it.v][L]}</span></div></div>
+    <div class="idea-body">
+      <p class="verdict-line"><b>${VERD[it.v][L]}:</b> ${it.reason}</p>
+      <p style="margin-bottom:6px"><b>${lb.replaces}:</b> ${it.replaces}</p>
+      <p>${it.how}</p>
+      <dl class="facts">
+        <div><dt>${lb.impact}</dt><dd>${it.impact}</dd></div>
+        <div><dt>${lb.complexity}</dt><dd>${meter(it.cx)}${CX[L][it.cx-1]}</dd></div>
+        <div class="wide"><dt>${lb.cost}</dt><dd>${it.cost}</dd></div>
+        <div class="wide"><dt>${lb.tools}</dt><dd>${it.tools}</dd></div>
+      </dl>
+      <details class="guide"><summary>${it.v==='skip'?lb.guideSkip:lb.guide}${ic('chev')}</summary><ol>${it.steps.map(s=>`<li>${s}</li>`).join('')}</ol></details>
+    </div>
+   </article>`).join('');
+  return `
+   <div class="glance">
+     <div><b>${d.glance[0]}</b><span>${lb.gIdeas}</span></div>
+     <div><b>${d.glance[1]}</b><span>${lb.gNow}</span></div>
+     <div><b style="font-size:17px">${d.glance[2]}</b><span>${lb.gSaved}</span></div>
+   </div>
+   <div class="jump" role="navigation" aria-label="Jump to section">${lb.jump.map((j,i)=>`<button class="chip" onclick="jumpTo('sec-${i}')">${j}</button>`).join('')}</div>
+
+   <section class="rsec" id="sec-0"><h2><span class="n">1</span>${lb.summary}</h2><p class="muted small">${lb.summaryHelp}</p>
+     <div class="card"><ol class="psteps">${d.steps.map(s=>`<li><span>${s}</span></li>`).join('')}</ol></div></section>
+
+   <section class="rsec" id="sec-1"><h2><span class="n">2</span>${lb.bottlenecks}</h2><p class="muted small">${lb.bnHelp}</p>
+     <div class="card" style="padding-top:6px;padding-bottom:6px">${d.bottlenecks.map(b=>`<div class="bn"><div class="bn-top"><b>${b.t}</b>${sevBar(b.sev)}</div><div class="bn-meta"><span class="badge b-neutral">${ic('clock')}${b.time}</span><span>${SEV[L][b.sev]}</span></div><div class="small muted">${b.why}</div></div>`).join('')}</div></section>
+
+   <section class="rsec" id="sec-2"><h2><span class="n">3</span>${lb.ideas}</h2><p class="muted small">${lb.ideasHelp}</p>${ideas}</section>
+
+   <section class="rsec" id="sec-3"><h2><span class="n">4</span>${lb.order}</h2>
+     <div class="card" style="padding-top:6px;padding-bottom:6px"><ol class="order">${d.order.map(o=>`<li><span class="when">${o.when}</span><div><div class="what">${o.what}</div><div class="why">${o.why}</div><span class="badge ${VERD[o.v].cls}" style="margin-top:6px">${VERD[o.v][L]}</span></div></li>`).join('')}</ol></div></section>
+
+   <section class="rsec" id="sec-4"><h2><span class="n">5</span>${lb.notes}</h2><p class="muted small">${lb.notesHelp}</p>
+     <div class="card card-warm" style="padding-top:8px;padding-bottom:8px"><ul class="notes">${notes.map(n=>`<li>${ic('alert')}<span>${n}</span></li>`).join('')}</ul></div></section>`;
+}
+
+function reportView(key,mode,entry){
+  const L=(mode==='owner'||mode==='sample')?S.lang:'en';
+  const d=REPORTS[key][L], lb=LBL[L];
+  const title=entry?entryTitle(entry,L):d.title;
+  const id=entry?entry.id:key;
+  const date=entry?(L==='hi'?entry.date.replace('Oct','अक्टूबर'):entry.date):d.date;
+  let top='', aside='', bar='', back='';
+  const langSeg=`<div class="seg" role="group" aria-label="Report language">
+      <button aria-pressed="${L==='en'}" onclick="setLang('en','${mode}')">English</button>
+      <button aria-pressed="${L==='hi'}" onclick="setLang('hi','${mode}')">${mode==='guest'?ic('lock'):''}हिंदी</button></div>`;
+  if(mode==='sample'){
+    back=`<a class="back" href="#/landing">${ic('back')}Home</a>`;
+    top=`<div class="alert a-info" style="margin-bottom:20px">${ic('info')}<p><b>This is a sample report.</b> It was made from the description of a saree wholesaler in Surat. Try the language switch and open the step-by-step guides.</p></div>`;
+    aside=`<div class="card card-tint stack"><h3 class="h4">Want one for your own work?</h3><p class="small">Describe any slow, repetitive process. Your first analysis is free — no sign-up needed.</p><a class="btn btn-primary btn-block" href="#/input">Try it free</a></div>`;
+    bar=`<div class="bar"><a class="btn btn-primary" href="#/input">Try it with your own process</a></div>`;
+  }
+  if(mode==='guest'){
+    top=`<div class="alert a-warn" style="margin-bottom:20px">${ic('clock')}<div><p style="margin-bottom:8px"><b>This report will be deleted in 24 hours.</b> Sign up free to keep it — it won’t use up any of your 10 monthly analyses.</p><button class="btn btn-primary btn-sm" onclick="claim()">Sign up to save it</button></div></div>`;
+    const locked=[['download','Download as PDF','download it as a PDF'],['share','Share a link','share a link'],['chat','Ask questions about it','ask questions about your report'],['edit','Edit and re-run','edit and re-run'],['up','Rate this report','rate this report']];
+    aside=`<div class="card stack"><h3 class="h4">Do more with your report</h3><p class="small muted">Free with an account.</p><div class="act-list">${locked.map(l=>`<button class="btn btn-secondary" onclick="lockModal('${l[2]}')">${ic(l[0])}${l[1]}<span class="lk">${ic('lock')}</span></button>`).join('')}</div><button class="btn btn-primary btn-block" onclick="claim()">Sign up free</button></div>`;
+    bar=`<div class="bar"><button class="btn btn-primary" onclick="claim()">${ic('lock')}Sign up free to save this report</button></div>`;
+  }
+  if(mode==='shared'){
+    top=`<div class="alert a-info" style="margin-bottom:20px">${ic('link')}<p><b>Shared by Rajesh Patel.</b> You’re viewing a read-only copy. Uploaded files and the chat are private to the owner.</p></div>`;
+    aside=`<div class="card card-tint stack"><div class="logo" style="margin:0">${LOGO}Untangle</div><p class="small">Untangle reads a description of any slow work process and suggests honest, practical ways to automate or simplify it — with costs in ₹ and step-by-step guides.</p><a class="btn btn-primary btn-block" href="#/landing">Try it yourself — free</a></div>`;
+    bar=`<div class="bar"><a class="btn btn-primary" href="#/landing">Try Untangle yourself — free</a></div>`;
+  }
+  if(mode==='owner'){
+    back=`<a class="back" href="#/dashboard">${ic('back')}My analyses</a>`;
+    if(entry.claimed) top=`<div class="alert a-good" style="margin-bottom:20px">${ic('check')}<p>Saved from your guest session. This report didn’t use up any of your monthly analyses.</p></div>`;
+    aside=`<div class="card stack"><h3 class="h4">Report actions</h3><div class="act-list">
+        <button class="btn btn-secondary" onclick="pdf('${id}')">${ic('download')}Download as PDF</button>
+        <button class="btn btn-secondary" onclick="shareModal('${id}')">${ic('share')}Share a link${S.shares[id]&&S.shares[id].on?'<span class="lk badge b-good">On</span>':''}</button>
+        <a class="btn btn-secondary" href="#/rerun/${id}">${ic('edit')}Edit and re-run</a>
+        <button class="btn btn-danger-outline" onclick="delModal('${id}')">${ic('trash')}Delete report</button></div></div>
+      <div class="card" id="rate-box" style="margin-top:16px">${rateHtml(id)}</div>
+      <div class="card" id="chat-box" style="margin-top:16px">${chatHtml(id,key)}</div>`;
+    bar=`<div class="bar">
+      <button class="bb" onclick="pdf('${id}')">${ic('download')}PDF</button>
+      <button class="bb" onclick="shareModal('${id}')">${ic('share')}Share</button>
+      <button class="bb" onclick="jumpTo('chat-box')">${ic('chat')}Ask</button>
+      <button class="bb" onclick="jumpTo('report-aside')">${ic('more')}More</button></div>`;
+  }
+  return `<div class="wrap page">
+    ${back}${top}
+    <div class="report-grid">
+     <div lang="${L}">
+       <div class="report-head">
+         <div><div class="eyebrow">${mode==='sample'?'Sample report':'Your report'}</div><h1 style="margin-top:6px">${title}</h1><p class="muted small" style="margin:0">${lb.created} ${date}${entry&&entry.rerun?' · Re-run of an earlier report':''}</p></div>
+         ${mode==='shared'?'':langSeg}
+       </div>
+       ${reportBody(key,mode,entry,L)}
+     </div>
+     <aside class="report-aside" id="report-aside">${aside}</aside>
+    </div>
+   </div>${bar}`;
+}
+function setLang(l,mode){
+  if(mode==='guest'){ lockModal('switch your report to Hindi'); return; }
+  if(S.lang===l) return; S.lang=l; refresh();
+  if(l==='hi') toast('Report switched to Hindi. This doesn’t use up any analyses.');
+}
+function claim(){ S.claimGuest=true; go('signin'); }
+function lockModal(what){
+  modal(`<div class="status-ill si-info">${ic('lock')}</div><h2 class="center">Sign up to ${what}</h2>
+   <p class="center muted">It’s free and takes a few seconds. Your report is saved to your account straight away, and you can download it, share it, ask questions, and switch it to Hindi.</p>
+   <div class="stack"><button class="btn btn-primary btn-block" autofocus onclick="closeModal();claim()">Sign up free</button><button class="btn btn-ghost btn-block" onclick="closeModal()">Not now</button></div>`);
+}
+function pdf(id){ const e=entryById(id); toast(`${ic('download','style="width:16px;height:16px;vertical-align:-3px"')} Downloading “${esc(entryTitle(e,S.lang))}.pdf” (simulated)`); }
+
+function rateHtml(id){
+  const r=S.ratings[id]||{};
+  if(r.sent) return `<h3 class="h4">Thanks for your feedback</h3><p class="small muted" style="margin:0">You rated this report ${r.v==='up'?'useful 👍':'not useful 👎'}. <button class="linkbtn" onclick="S.ratings['${id}'].sent=false;$('#rate-box').innerHTML=rateHtml('${id}')">Change</button></p>`;
+  return `<h3 class="h4">Was this report useful?</h3>
+   <div class="rate-btns" role="group" aria-label="Rate this report">
+    <button aria-pressed="${r.v==='up'}" onclick="rate('${id}','up')">${ic('up')}Yes</button>
+    <button aria-pressed="${r.v==='down'}" onclick="rate('${id}','down')">${icDown()}Not really</button></div>
+   ${r.v?`<label class="field" style="margin-top:12px"><span class="label small">${r.v==='up'?'What helped most?':'What could be better?'} <span class="muted">(optional)</span></span><textarea class="input" rows="3" id="rate-c" placeholder="${r.v==='up'?'For example: the payment reminder steps were easy to follow':'For example: the costs seemed too low for my city'}"></textarea></label><button class="btn btn-primary btn-block" style="margin-top:12px" onclick="sendRate('${id}')">Send feedback</button>`:''}`;
+}
+function rate(id,v){ S.ratings[id]={v}; $('#rate-box').innerHTML=rateHtml(id); }
+function sendRate(id){ S.ratings[id].sent=true; $('#rate-box').innerHTML=rateHtml(id); toast('Feedback sent — thank you'); }
+
+function getChat(id){ if(!S.chats[id]) S.chats[id]={used:0,msgs:[]}; return S.chats[id]; }
+function chatHtml(id,key){
+  const c=getChat(id), l=10-c.used;
+  const log=c.msgs.map(m=>m.me?`<div class="bubble me">${esc(m.t)}</div>`:`<div class="bubble ai"><span class="who">Untangle</span>${m.typing?'<span class="typing"><i></i><i></i><i></i></span>':esc(m.t)}</div>`).join('');
+  return `<div class="row between"><h3 class="h4" style="margin:0">Ask about this report</h3><span class="count-pill">${l} of 10 left</span></div>
+   ${c.msgs.length?`<div class="chat-log" aria-live="polite">${log}</div>`:`<p class="small muted" style="margin:10px 0">Ask anything about this report — for example, to explain a step more simply. Questions don’t use up your monthly analyses.</p>`}
+   ${l<=0?`<div class="alert a-warn">${ic('info')}<div><p style="margin-bottom:8px"><b>You’ve used all 10 questions for this report.</b> For fresh ideas, edit your process and re-run it.</p><a class="btn btn-primary btn-sm" href="#/rerun/${id}">Edit and re-run</a></div></div>`:`
+   ${c.used<3?`<div class="chips" style="margin:8px 0 12px">${CHAT_SUGG.map((s,i)=>`<button class="chip" onclick="sendChat('${id}','${key}',${i})">${s}</button>`).join('')}</div>`:''}
+   <form class="chat-form" onsubmit="event.preventDefault();sendChat('${id}','${key}',-1)"><label class="sr" for="chat-in">Your question</label><input class="input" id="chat-in" placeholder="Type your question…" autocomplete="off"><button class="btn btn-primary" aria-label="Send">${ic('send')}</button></form>
+   <p class="help">Write in English, Hindi or Hinglish — we’ll reply the same way.</p>`}`;
+}
+function sendChat(id,key,i){
+  const c=getChat(id); if(c.used>=10) return;
+  let q, a;
+  if(i>=0){ q=CHAT_SUGG[i]; a=CHAT_ANS[key][i]; }
+  else { const el=$('#chat-in'); q=el.value.trim(); if(!q){ el.focus(); return; }
+    a=/[ऀ-ॿ]/.test(q)?CHAT_DEFAULT.hi:/\b(kaise|kya|hai|nahi|mein|karu|karein|samajh|kaun|kitna|bataiye|hoga)\b/i.test(q)?CHAT_DEFAULT.hinglish:CHAT_DEFAULT.en; }
+  c.used++; c.msgs.push({me:1,t:q}); const m={me:0,typing:1,t:''}; c.msgs.push(m);
+  $('#chat-box').innerHTML=chatHtml(id,key);
+  setTimeout(()=>{ m.typing=0; m.t=a; const box=$('#chat-box'); if(box){ box.innerHTML=chatHtml(id,key); const inp=$('#chat-in'); if(inp) inp.focus({preventScroll:true}); } },1100);
+}
+function shareModal(id){
+  const sh=S.shares[id];
+  if(!sh){ modal(`<h2>Share a read-only link</h2><p class="muted">Anyone with the link can read this report — no login needed. They <b>can’t</b> see your uploaded files, use the chat, or change anything.</p><p class="small muted">Handy for sending to your manager, partner or CA.</p><button class="btn btn-primary btn-block" autofocus onclick="S.shares['${id}']={on:true};S.shareTarget='${id}';shareModal('${id}');refreshAside('${id}')">Create link</button>`); return; }
+  modal(`<h2>Share a read-only link</h2>
+    ${sh.on?`<label class="label" for="sh-l">Your link</label><div class="chat-form"><input class="input" id="sh-l" readonly value="untangle.app/r/k7Qm2x"><button class="btn btn-primary" onclick="toast('Link copied')">Copy</button></div>
+    <p class="help">Paste it into WhatsApp, email or anywhere else.</p>`:`<div class="alert a-warn">${ic('ban')}<p><b>The link is off.</b> Anyone who opens it now sees “This link is no longer active”.</p></div>`}
+    <hr class="sep">
+    <div class="set-row"><div><b>Link is ${sh.on?'on':'off'}</b><p class="small muted" style="margin:0">${sh.on?'Turn it off at any time to stop people viewing.':'Turn it back on to let people view it again.'}</p></div>
+      <button class="switch" role="switch" aria-checked="${sh.on}" aria-label="Share link on or off" onclick="S.shares['${id}'].on=!S.shares['${id}'].on;shareModal('${id}');refreshAside('${id}');toast(S.shares['${id}'].on?'Link turned on':'Link turned off')"></button></div>
+    <hr class="sep">
+    <a class="btn btn-secondary btn-block" href="#/shared" onclick="S.shareTarget='${id}'">See what viewers see</a>`);
+}
+function refreshAside(id){ /* update On badge without losing chat */ const b=$$('.act-list button')[1]; if(b){ const on=S.shares[id]&&S.shares[id].on; b.innerHTML=`${ic('share')}Share a link${on?'<span class="lk badge b-good">On</span>':''}`; } }
+function delModal(id){
+  modal(`<div class="status-ill si-bad">${ic('trash')}</div><h2 class="center">Delete this report?</h2>
+   <p class="center muted">This permanently deletes the report, your process description, follow-up answers, uploaded files and chat. Any shared link will stop working. This can’t be undone.</p>
+   <p class="center small muted">Deleting won’t give back the analysis it used this month.</p>
+   <div class="btn-row"><button class="btn btn-secondary" style="flex:1" autofocus onclick="closeModal()">Keep it</button><button class="btn btn-danger" style="flex:1" onclick="delReport('${id}')">Delete report</button></div>`);
+}
+function delReport(id){ S.reports=S.reports.filter(e=>e.id!==id); S.deleted.push(id); delete S.shares[id]; closeModal(); go('dashboard'); toast('Report deleted'); }
+
+/* ============ SCREENS ============ */
+const SCREENS={}, AFTER={};
+const statusPage=(cls,icon,h,body,actions)=>`<div class="narrow page center"><div class="card" style="padding:32px 20px"><div class="status-ill ${cls}">${ic(icon)}</div><h1 style="font-size:28px">${h}</h1>${body}<div class="stack" style="margin-top:20px">${actions}</div></div></div>`;
+
+SCREENS.landing=()=>`
+ <section class="hero"><div class="wrap hero-grid">
+  <div>
+   <span class="badge b-primary" style="margin-bottom:16px">Free · No tech knowledge needed</span>
+   <h1>Tell us how your work gets done. We’ll show you how to make it easier.</h1>
+   <p class="lead">Describe any slow, repetitive process in your own words — English, Hindi or Hinglish. Untangle suggests practical ways to automate or simplify it, tells you honestly what each idea costs and saves, and gives you a step-by-step guide.</p>
+   <div class="btn-row" style="margin-top:24px"><a class="btn btn-primary" href="#/input">Try it free</a><a class="btn btn-secondary" href="#/sample">See a sample report</a></div>
+   <p class="tiny muted" style="margin-top:12px">Your first analysis needs no sign-up.</p>
+  </div>
+  <figure class="photo"><div class="photo-art">${ic('camera')}</div><figcaption><b>Photo:</b> a saree wholesaler at his shop counter in Surat, phone in one hand and a paper order register open beside him, colourful fabric bolts on the shelves behind. Warm daylight, candid, not posed.</figcaption></figure>
+ </div></section>
+
+ <section class="section section-alt"><div class="wrap">
+  <h2>How it works</h2><p class="muted">Three steps. About 5 minutes of your time.</p>
+  <div class="grid3" style="margin-top:20px">
+   <div class="card"><div class="step-num">1</div><h3>Describe it</h3><p class="muted small" style="margin:0">Write what happens, step by step, the way you’d explain it to a friend. On a phone, tap the microphone on your keyboard and just speak.</p></div>
+   <div class="card"><div class="step-num">2</div><h3>Answer a few questions</h3><p class="muted small" style="margin:0">We ask only about what’s missing — like which apps you use and your budget. Skip any you like.</p></div>
+   <div class="card"><div class="step-num">3</div><h3>Get your report</h3><p class="muted small" style="margin:0">Ideas rated by time saved, cost in ₹ and difficulty — plus a step-by-step guide for each, and what to do first.</p></div>
+  </div>
+ </div></section>
+
+ <section class="section"><div class="wrap">
+  <h2>Real kinds of work, made simpler</h2><p class="muted">Examples of what people get back.</p>
+  <div class="grid3" style="margin-top:20px">
+   <article class="card ex"><span class="badge b-warn">Small business</span><h3 style="margin-top:12px">Rajesh, saree wholesaler, Surat</h3>
+    <div class="ba"><div class="before"><b>Before</b>Orders arrive as WhatsApp voice notes, get copied into a register, then typed again into Tally at night. 3½ hours a day.</div><div class="after"><b>After</b>A fixed order format on WhatsApp Business, a shared Google Sheet instead of the register, and Monday payment reminders. All free.</div></div>
+    <div class="saved">Saves ~1 hr 40 min a day</div><a href="#/sample" class="small">See this report →</a></article>
+   <article class="card ex"><span class="badge b-primary">Freelancer</span><h3 style="margin-top:12px">Ananya, graphic designer, Bengaluru</h3>
+    <div class="ba"><div class="before"><b>Before</b>Makes each invoice in Word, emails it, and keeps a sticky note of who hasn’t paid. Chasing takes 5 hours a month.</div><div class="after"><b>After</b>Invoice templates and automatic payment reminders on a free invoicing app, plus a ready reply for late payers.</div></div>
+    <div class="saved">Saves ~4 hrs a month · ₹0</div></article>
+   <article class="card ex"><span class="badge b-good">Corporate team</span><h3 style="margin-top:12px">Vikram, HR operations, IT company, Pune</h3>
+    <div class="ba"><div class="before"><b>Before</b>Collects 9 documents from every new joiner over email and tracks them in Excel. About 40 emails per joiner.</div><div class="after"><b>After</b>An upload form and an automatic tracker using Microsoft 365, which the company already pays for. Marked: needs IT approval.</div></div>
+    <div class="saved">Saves ~2 hrs per joiner</div></article>
+  </div>
+ </div></section>
+
+ <section class="section section-alt"><div class="wrap grid2" style="align-items:center">
+  <div><h2>We tell you when an idea isn’t worth it</h2><p class="muted">Some ideas would work but cost too much or are too hard for your situation. We include them anyway — clearly marked — so you can decide with the full picture.</p></div>
+  <div class="card idea v-skip" style="margin:0"><div class="idea-hd"><span class="idea-num">5</span><div><h3>A WhatsApp ordering bot connected to Tally</h3><span class="badge b-bad">Not worth it</span></div></div><div class="idea-body"><p class="verdict-line" style="margin-bottom:0"><b>Not worth it:</b> ₹60,000+ to set up. At 40 orders a day, the free ideas give you most of the benefit.</p></div></div>
+ </div></section>
+
+ <section class="section"><div class="wrap"><div class="card grid2" style="gap:24px">
+  <div><div class="status-ill si-info" style="margin:0 0 16px">${ic('shield')}</div><h2>Your process stays yours</h2><p class="muted">In plain words, here’s what happens to what you share.</p><a href="#/privacy">Read our privacy policy</a></div>
+  <ul class="check-list">
+   <li>${ic('check')}<span>Files you upload are encrypted and stored until you delete them. Delete a report and its files go with it.</span></li>
+   <li>${ic('check')}<span>We never use your data to train AI.</span></li>
+   <li>${ic('check')}<span>Our team only reads anonymised reports if you switch that on in Settings. It’s off unless you choose it.</span></li>
+   <li>${ic('check')}<span>Shared links show the report only — never your files.</span></li>
+   <li>${ic('check')}<span>Guest analyses are deleted after 24 hours.</span></li>
+   <li>${ic('check')}<span>We give advice only. Untangle never logs in to or changes your WhatsApp, Tally, Excel or any other app.</span></li>
+  </ul>
+ </div></div></section>
+
+ <section class="section" style="padding-top:0"><div class="wrap"><div class="cta-band"><h2>What’s slowing you down this week?</h2><p style="opacity:.9">Describe it in a few lines. Get honest ideas in about 2 minutes.</p><a class="btn btn-primary" href="#/input">Try it free</a></div></div></section>`;
+
+SCREENS.sample=()=>reportView('A','sample');
+SCREENS['guest-report']=()=>{ if(!S.guestReport) return statusPage('si-warn','clock','This report has expired','<p class="muted">Guest reports are deleted 24 hours after they’re made. Sign up free to keep future reports.</p>',`<a class="btn btn-primary btn-block" href="#/signin">Sign up free</a>`); return reportView('A','guest'); };
+SCREENS.report=id=>{ if(needUser()) return ''; const e=entryById(id); if(!e) return SCREENS.notfound(); return reportView(e.key,'owner',e); };
+SCREENS.shared=()=>{ const sh=S.shares[S.shareTarget]; if(S.deleted.includes(S.shareTarget)||(sh&&!sh.on)) return SCREENS['shared-off'](); const e=entryById(S.shareTarget); return reportView(e?e.key:'A','shared',e); };
+SCREENS['shared-off']=()=>statusPage('si-warn','ban','This link is no longer active','<p class="muted">The person who shared this report has turned off the link or deleted the report. Ask them to share it again if you still need it.</p><div class="card card-tint" style="text-align:left;margin-top:20px"><b>What is Untangle?</b><p class="small" style="margin:6px 0 0">A free website that reads a description of any slow work process and suggests honest, practical ways to simplify it.</p></div>',`<a class="btn btn-primary btn-block" href="#/landing">Try it yourself — free</a>`);
+
+/* ---- input ---- */
+const wc=t=>(t.trim().match(/\S+/g)||[]).length;
+const fmtMB=s=>s<1?Math.round(s*1000)+' KB':s.toFixed(1)+' MB';
+function filesHtml(){
+  if(S.role!=='user') return `<div class="lockbox">${ic('lock')}<div><b>Sign up to attach files</b><p class="small muted" style="margin:4px 0 8px">With a free account you can attach SOPs, Excel sheets, PDFs or screenshots — up to 3 files.</p><button class="btn btn-secondary btn-sm" onclick="S.claimGuest=false;go('signin')">Sign up free</button></div></div>`;
+  const errs=S.fileErrs.map(e=>`<div class="alert a-error" style="margin-top:10px">${ic('alert')}<p>${e}</p></div>`).join('');
+  const rows=S.files.map((f,i)=>`<div class="file-row"><span class="fi">${f.t}</span><div class="fn"><div>${esc(f.n)}</div><div class="tiny muted">${fmtMB(f.s)} · Ready</div></div><button class="icon-btn" aria-label="Remove ${esc(f.n)}" onclick="S.files.splice(${i},1);S.fileErrs=[];$('#files').innerHTML=filesHtml()">${ic('x')}</button></div>`).join('');
+  return `<div class="stack" style="--g:8px">${rows}</div>
+   ${S.files.length<3?`<div class="dz" style="margin-top:${S.files.length?'10px':'0'}">${ic('clip')}<p style="margin:6px 0 2px;font-weight:600">${S.files.length?'Add another file':'Add files'} <span class="muted" style="font-weight:400">(optional)</span></p><p class="tiny muted">Up to 3 files, 10 MB each · PDF, Word, Excel, CSV, PNG, JPG</p><button class="btn btn-secondary btn-sm" onclick="pickModal()">Choose files</button></div>`:`<p class="help">You’ve added 3 files — the most for one analysis. Remove one to add a different file.</p>`}${errs}`;
+}
+function pickModal(){
+  modal(`<h2>Choose a file</h2><p class="small muted">Simulated file picker — pick any to see how it’s handled.</p><div class="stack">${PICK.map((f,i)=>`<div class="file-row"><span class="fi">${f.t}</span><div class="fn"><div>${f.n}</div><div class="tiny muted">${fmtMB(f.s)}</div></div><button class="btn btn-secondary btn-sm" onclick="addFile(${i})">Add</button></div>`).join('')}</div>`);
+}
+function addFile(i){
+  const f=PICK[i]; S.fileErrs=[];
+  if(S.files.length>=3) S.fileErrs.push('You can attach up to 3 files. Remove one to add another.');
+  else if(S.files.some(x=>x.n===f.n)) S.fileErrs.push(`“${f.n}” is already attached.`);
+  else if(!OK_TYPES.includes(f.t)) S.fileErrs.push(`“${f.n}” can’t be attached — we accept PDF, Word, Excel, CSV, PNG and JPG files. You can carry on without it.`);
+  else if(f.s>10) S.fileErrs.push(`“${f.n}” is ${fmtMB(f.s)} — the limit is 10 MB per file. Try saving a smaller copy, or carry on without it.`);
+  else S.files.push(f);
+  closeModal(); $('#files').innerHTML=filesHtml();
+}
+function onText(el){ S.text=el.value; $('#wc').textContent=wc(S.text)+' words'; if(S.textErr&&wc(S.text)>=12){ S.textErr=false; $('#f-text').classList.remove('has-error'); const e=$('#text-err'); if(e) e.remove(); } }
+function useExample(){ S.text=EXAMPLE_TEXT; const t=$('#ptext'); t.value=S.text; onText(t); t.focus(); }
+function generate(){
+  if(wc(S.text)<12){ S.textErr=true; $('#f-text').classList.add('has-error'); if(!$('#text-err')) $('#f-text').insertAdjacentHTML('beforeend',`<div class="err" id="text-err">${ic('alert')}<span>This is a bit short for us to work with. Tell us the steps one by one — for example: “Customers send orders on WhatsApp, my staff writes them in a register, then I make the bill in Tally.” This won’t use up your analysis.</span></div>`); $('#ptext').focus(); return; }
+  go('followup');
+}
+function inputForm(rerunId){
+  const isUser=S.role==='user';
+  const rerunE=rerunId?entryById(rerunId):null;
+  return `<div class="wrap page">
+   <a class="back" href="${rerunE?'#/report/'+rerunId:isUser?'#/dashboard':'#/landing'}">${ic('back')}${rerunE?'Back to report':isUser?'My analyses':'Home'}</a>
+   <div class="input-grid">
+    <div class="stack-lg">
+     <div><h1>${rerunE?'Edit and re-run':'Describe your process'}</h1>
+      <p class="muted" style="margin:0">${rerunE?'Change anything — your description, files or answers — and we’ll make a fresh report.':'Write it the way you’d explain it to a friend: what happens, who does it, which apps or papers you use, and what annoys you about it.'}</p></div>
+     ${rerunE?`<div class="alert a-info">${ic('info')}<p>Re-running uses <b>1 of your ${left()} analyses</b> left this month. Your current report will be kept.</p></div>`:''}
+     <div class="alert a-warn">${ic('shield')}<p><b>Please don’t paste</b> passwords, customer personal data, or anything your employer doesn’t allow you to share.</p></div>
+     <div class="field ${S.textErr?'has-error':''}" id="f-text">
+      <label class="label" for="ptext">Your process</label>
+      <textarea class="textarea big" id="ptext" oninput="onText(this)" placeholder="For example: Every Monday I collect timesheets from 6 staff on WhatsApp, copy them into Excel, and work out salaries by hand. It takes about 3 hours and I often make mistakes…">${esc(S.text)}</textarea>
+      <div class="textbar"><span class="help" style="margin:0">${ic('mic','style="width:16px;height:16px;vertical-align:-3px"')} Any language is fine. On a phone, tap the microphone on your keyboard to speak.</span><span class="help" style="margin:0" id="wc">${wc(S.text)} words</span></div>
+      ${S.text?'':`<button class="linkbtn" onclick="useExample()">Not sure what to write? Use an example</button>`}
+     </div>
+     <div><span class="label">Supporting files</span><div id="files">${filesHtml()}</div></div>
+     <div>
+      <button class="btn btn-primary btn-block" onclick="generate()">Generate analysis</button>
+      <p class="help center">${isUser?`${left()} of 10 analyses left this month · `:'Your 1 free analysis · '}Next: a few quick questions (you can skip them)</p>
+     </div>
+    </div>
+    <aside class="card card-tint"><h3 class="h4">What makes a good description</h3>
+     <ul class="check-list small">
+      <li>${ic('check')}<span>Each step, in the order it happens</span></li>
+      <li>${ic('check')}<span>Who does each step</span></li>
+      <li>${ic('check')}<span>Which apps, files or papers are used</span></li>
+      <li>${ic('check')}<span>How often it happens and roughly how long it takes</span></li>
+      <li>${ic('check')}<span>What goes wrong most often</span></li></ul>
+     <p class="small muted" style="margin:0">Long documents are fine — paste a whole SOP if you have one.</p></aside>
+   </div></div>`;
+}
+SCREENS.input=()=>{
+  if(S.role==='admin') return SCREENS.admin();
+  if(S.role==='guest'&&S.guestUsed) return statusPage('si-info','lock','You’ve used your free analysis',`<p class="muted">Guests get one free analysis. Create a free account to run <b>10 analyses every month</b>, attach files, and keep your reports.</p>${S.guestReport?'<p class="small muted">Your earlier report is still available for 24 hours after it was made.</p>':''}`,`<button class="btn btn-primary btn-block" onclick="claim()">Sign up to run more analyses</button>${S.guestReport?'<a class="btn btn-secondary btn-block" href="#/guest-report">View my report</a>':''}`);
+  if(S.role==='user'&&left()<=0) return statusPage('si-warn','clock','You’ve used all 10 analyses for October','<p class="muted">Your free analyses reset on <b>1 November 2026</b> at midnight. Until then you can still open, download and share your reports, and ask questions about them.</p>',`<a class="btn btn-primary btn-block" href="#/dashboard">Go to my analyses</a>`);
+  return inputForm(null);
+};
+SCREENS.rerun=id=>{
+  if(needUser()) return '';
+  const e=entryById(id); if(!e) return SCREENS.notfound();
+  if(left()<=0) return SCREENS.input();
+  if(S.flow.mode!=='rerun'||S.flow.from!==id){ S.flow={mode:'rerun',from:id}; S.text=EXAMPLE_TEXT; S.files=e.files?[PICK[1],PICK[2]]:[]; S.fileErrs=[]; S.answers={q1:['WhatsApp','Tally','Paper register or diary'],q2:'Only if they’re free',q4:'₹2 lakh – ₹5 lakh'}; S.skipped={q3:1,q5:1}; }
+  return inputForm(id);
+};
+
+/* ---- follow-up ---- */
+function fuCount(){ return QS.filter(q=>!S.skipped[q.id]&&S.answers[q.id]&&(Array.isArray(S.answers[q.id])?S.answers[q.id].length:String(S.answers[q.id]).trim())).length; }
+function fuCountUpdate(){ const n=fuCount(); $('#fu-n').textContent=n; $('#fu-bar').style.width=(n/QS.length*100)+'%'; }
+function fuToggle(q,i){ const Q=QS.find(x=>x.id===q); const v=Q.opts[i];
+  if(Q.type==='multi'){ const a=S.answers[q]=S.answers[q]||[]; const k=a.indexOf(v); k>=0?a.splice(k,1):a.push(v); } else S.answers[q]=v;
+  refresh(); }
+function fuSkip(q,on){ if(on) S.skipped[q]=1; else delete S.skipped[q]; refresh(); }
+SCREENS.followup=()=>{
+  if(S.role==='guest'&&S.guestUsed) return SCREENS.input();
+  if(S.role==='user'&&left()<=0) return SCREENS.input();
+  const n=fuCount();
+  const cards=QS.map((Q,qi)=>{ const sk=!!S.skipped[Q.id]; const a=S.answers[Q.id];
+   let body='';
+   if(Q.type==='multi') body=`${Q.note?`<p class="small" style="background:var(--primary-tint);padding:8px 12px;border-radius:10px">${Q.note}</p>`:''}<div class="chips">${Q.opts.map((o,i)=>`<button class="chip" aria-pressed="${!!(a&&a.includes(o))}" onclick="fuToggle('${Q.id}',${i})">${a&&a.includes(o)?ic('check'):''}${o}</button>`).join('')}</div>`;
+   if(Q.type==='single') body=`<div class="opt-list" role="radiogroup">${Q.opts.map((o,i)=>`<button class="opt" role="radio" aria-pressed="${a===o}" aria-checked="${a===o}" onclick="fuToggle('${Q.id}',${i})"><span class="dot"></span>${o}</button>`).join('')}</div>`;
+   if(Q.type==='number') body=`<div class="row" style="flex-wrap:nowrap"><input class="input" style="max-width:180px" inputmode="numeric" id="in-${Q.id}" placeholder="${Q.ph}" value="${esc(a||'')}" oninput="S.answers['${Q.id}']=this.value.replace(/[^0-9]/g,'');this.value=S.answers['${Q.id}'];fuCountUpdate()"><span class="muted">${Q.suffix}</span></div>`;
+   return `<section class="card q ${sk?'skipped':''}" aria-labelledby="qh-${Q.id}">
+     <div class="qnum">Question ${qi+1} of ${QS.length}${sk?' · Skipped':''}</div>
+     <h3 id="qh-${Q.id}" style="margin:6px 0 4px">${Q.q}</h3>
+     <div class="qbody"><p class="small muted">${Q.why}</p>${body}</div>
+     <div class="q-foot">${sk?`<button class="btn btn-ghost btn-sm" onclick="fuSkip('${Q.id}',false)">Answer this question</button>`:`<button class="btn btn-ghost btn-sm" onclick="fuSkip('${Q.id}',true)">Skip</button>`}</div>
+   </section>`; }).join('');
+  return `<div class="narrow page">
+   <a class="back" href="${S.flow.mode==='rerun'?'#/rerun/'+S.flow.from:'#/input'}">${ic('back')}Back to your description</a>
+   <h1>A few quick questions</h1>
+   <p class="muted">Your answers make the time and cost estimates more accurate. Skip anything you don’t know or don’t want to share — you’ll still get a full report.</p>
+   <div class="row between small" style="margin:16px 0 8px"><span><b id="fu-n">${n}</b> of ${QS.length} answered</span><button class="linkbtn" onclick="startProcessing()">Skip all and generate</button></div>
+   <div class="progress"><span id="fu-bar" style="width:${n/QS.length*100}%"></span></div>
+   <div class="stack" style="margin-top:20px">${cards}</div>
+   <div class="sticky-foot"><div class="btn-row"><button class="btn btn-primary" style="flex:2" onclick="startProcessing()">Generate my report</button><button class="btn btn-secondary" style="flex:1" onclick="QS.forEach(q=>S.skipped[q.id]=1);startProcessing()">Skip all and generate</button></div></div>
+  </div>`;
+};
+function startProcessing(){ go('processing'); }
+
+/* ---- processing ---- */
+SCREENS.processing=()=>{
+  const steps=['Reading your process',...(S.role==='user'&&S.files.length?[`Reviewing your ${S.files.length} file${S.files.length>1?'s':''}`]:[]),'Finding bottlenecks','Looking for ideas that use tools you already have','Writing your step-by-step guide'];
+  return `<div class="narrow page"><div class="card" style="padding:32px 20px">
+   <svg class="knot" viewBox="0 0 88 88" aria-hidden="true"><path d="M10 56c8 0 10-26 22-26s9 21-1 21-6-20 11-20h36" fill="none" stroke="#0F6E6E" stroke-width="5" stroke-linecap="round"/></svg>
+   <h1 class="center" style="font-size:28px">Untangling your process…</h1>
+   <p class="center muted">This usually takes under 2 minutes.</p>
+   <div class="progress" style="margin:20px 0"><span id="pbar" style="width:4%"></span></div>
+   <div role="status" aria-live="polite">${steps.map(s=>`<div class="pstep"><span class="pi">${ic('check')}</span>${s}</div>`).join('')}</div>
+   ${S.role==='user'?`<div class="alert a-info" style="margin-top:16px">${ic('mail')}<p>You don’t need to wait here. If it takes more than a minute, we’ll email <b>${S.email}</b> when your report is ready.</p></div>`:`<div class="alert a-warn" style="margin-top:16px">${ic('info')}<p>Please keep this page open. As a guest, we can’t email you when it’s ready.</p></div>`}
+  </div></div>`;
+};
+AFTER.processing=()=>{
+  const steps=$$('.pstep'); let i=0;
+  const tick=()=>{ if(i>0){ steps[i-1].classList.remove('doing'); steps[i-1].classList.add('done'); }
+    if(i<steps.length){ steps[i].classList.add('doing'); $('#pbar').style.width=((i+.6)/steps.length*100)+'%'; i++; timers.push(setTimeout(tick,1200)); }
+    else { $('#pbar').style.width='100%'; timers.push(setTimeout(finishProcessing,500)); } };
+  timers.push(setTimeout(tick,300));
+};
+function finishProcessing(){
+  if(S.failNext){ S.failNext=false; go('failed'); return; }
+  if(S.role!=='user'){ S.guestUsed=true; S.guestReport=true; S.lang='en'; go('guest-report'); return; }
+  const id='r'+Date.now().toString(36); const rerun=S.flow.mode==='rerun';
+  S.reports.unshift({id,key:'A',date:'4 Oct 2026',files:S.files.length>0,rerun});
+  S.used++; S.lang='en'; S.flow={mode:'new',from:null};
+  go('report/'+id); toast(rerun?'New report ready — your earlier one is still saved':'Your report is ready');
+}
+SCREENS.failed=()=>statusPage('si-bad','alert','Something went wrong with your analysis','<p class="muted">Our system couldn’t finish your report this time. <b>This didn’t use up any of your analyses</b>, and your description and answers are saved.</p><p class="small muted">If it keeps happening, <a href="#/contact">contact us</a>.</p>',`<button class="btn btn-primary btn-block" onclick="go('processing')">${ic('rotate')}Try again</button><a class="btn btn-secondary btn-block" href="#/input">Edit my description</a>`);
+
+/* ---- sign in ---- */
+function emailSignin(){
+  const v=$('#si-email').value.trim(); S.pendingEmail=v;
+  if(!v) S.signinErr='Enter your email address so we can send you a sign-in link.';
+  else if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) S.signinErr='That doesn’t look like an email address. Check for a missing @ or dot — for example, name@gmail.com.';
+  else { S.signinErr=''; go('check-email'); return; }
+  refresh(); $('#si-email').focus();
+}
+SCREENS.signin=()=>`<div class="narrow page" style="max-width:480px"><div class="card">
+  <h1 style="font-size:28px">Sign in or create an account</h1>
+  <p class="muted">It’s free. You get 10 analyses every month, and your reports are saved.</p>
+  ${S.claimGuest&&S.guestReport?`<div class="alert a-good" style="margin-bottom:16px">${ic('check')}<p>Your report will be saved to your new account as soon as you sign up.</p></div>`:''}
+  <div class="stack">
+   <button class="btn btn-secondary btn-block" onclick="signIn('google')"><span class="avatar" style="width:28px;height:28px;font-size:14px;border:0;background:#F1ECE3;color:var(--ink)">G</span>Continue with Google</button>
+   <button class="btn btn-secondary btn-block" onclick="signIn('microsoft')"><span class="avatar" style="width:28px;height:28px;font-size:14px;border:0;background:#F1ECE3;color:var(--ink)">M</span>Continue with Microsoft</button>
+  </div>
+  <div class="divider">or use your email</div>
+  <div class="field ${S.signinErr?'has-error':''}"><label class="label" for="si-email">Email address</label>
+   <input class="input" id="si-email" type="email" inputmode="email" autocomplete="email" placeholder="name@gmail.com" value="${esc(S.pendingEmail)}" onkeydown="if(event.key==='Enter')emailSignin()" aria-describedby="si-help">
+   ${S.signinErr?`<div class="err">${ic('alert')}<span>${S.signinErr}</span></div>`:''}
+   <p class="help" id="si-help">We’ll email you a link to sign in — no password to remember.</p></div>
+  <button class="btn btn-primary btn-block" style="margin-top:12px" onclick="emailSignin()">${ic('mail')}Email me a sign-in link</button>
+  <p class="tiny muted center" style="margin-top:16px">By continuing you agree to our <a href="#/terms">Terms of use</a> and <a href="#/privacy">Privacy policy</a>.</p>
+ </div><p class="center tiny muted" style="margin-top:16px">Site owner? <button class="linkbtn" style="font-size:13px" onclick="signIn('admin')">Admin sign-in</button></p></div>`;
+SCREENS['check-email']=()=>statusPage('si-info','mail','Check your email',`<p class="muted">We’ve sent a sign-in link to <b>${esc(S.pendingEmail||S.email)}</b>. Tap the link in that email to sign in. It works once, for 15 minutes.</p><p class="small muted">Can’t find it? Look in your Spam or Promotions folder.</p>`,`<a class="btn btn-primary btn-block" href="#/email-magic">Open the email (preview)</a><button class="btn btn-secondary btn-block" onclick="toast('A new link is on its way')">Resend link</button><a class="btn btn-ghost btn-block" href="#/signin">Use a different email</a>`);
+SCREENS['link-expired']=()=>statusPage('si-warn','clock','This sign-in link has expired','<p class="muted">Sign-in links work once, for 15 minutes. Send yourself a fresh one — it only takes a moment.</p>',`<button class="btn btn-primary btn-block" onclick="go('check-email')">Send a new link to ${esc(S.pendingEmail||S.email)}</button><a class="btn btn-ghost btn-block" href="#/signin">Sign in another way</a>`);
+SCREENS.suspended=()=>statusPage('si-bad','ban','Your account has been suspended','<p class="muted">You can’t sign in or run analyses right now. If you think this is a mistake, contact us and we’ll look into it.</p>',`<a class="btn btn-primary btn-block" href="#/contact" onclick="S.contact.topic='My account was suspended'">Contact us</a><a class="btn btn-ghost btn-block" href="#/landing">Back to home</a>`);
+SCREENS.notfound=()=>statusPage('si-warn','search','We couldn’t find that page','<p class="muted">The link may be mistyped, or the page may have moved.</p>',`<a class="btn btn-primary btn-block" href="${S.role==='user'?'#/dashboard':'#/landing'}">Go to the home page</a>`);
+
+/* ---- emails ---- */
+function emailFrame(subject,body,note){ return `<div class="narrow page"><span class="preview-tag">Email preview</span><p class="small muted">This is what the person receives in their inbox.</p>
+  <div class="email"><div class="email-meta"><div><b>From:</b> Untangle</div><div><b>To:</b> ${esc(S.pendingEmail||S.email)}</div><div><b>Subject:</b> ${subject}</div></div><div class="email-body"><div class="logo">${LOGO}Untangle</div>${body}<hr class="sep"><p class="tiny muted" style="margin:0">You’re receiving this because of activity on your Untangle account. We don’t send marketing emails.</p></div></div>${note||''}</div>`; }
+SCREENS['email-magic']=()=>emailFrame('Your sign-in link for Untangle',`<h2 style="font-size:22px">Sign in to Untangle</h2><p>Tap the button below to sign in. This link works once, for the next 15 minutes.</p><button class="btn btn-primary" onclick="signIn('email')">Sign in to Untangle</button><p class="small muted" style="margin-top:16px">If you didn’t ask to sign in, you can ignore this email — nothing will happen.</p>`,`<p class="small center" style="margin-top:16px"><a href="#/link-expired">See what happens if the link has expired</a></p>`);
+SCREENS['email-ready']=()=>emailFrame('Your Untangle report is ready',`<h2 style="font-size:22px">Your report is ready</h2><p>Namaste ${S.first}, your report <b>“WhatsApp orders to Tally invoices and payments”</b> is ready. We found 5 ideas — 3 you can start this week.</p><a class="btn btn-primary" href="#/report/${S.reports[0]?S.reports[0].id:'A'}" onclick="if(S.role!=='user'){setupUser('returning')}">Open my report</a>`);
+SCREENS['email-deleted']=()=>emailFrame('Your Untangle account has been deleted',`<h2 style="font-size:22px">Your account has been deleted</h2><p>As you asked, we’ve permanently deleted your Untangle account, all your reports, process descriptions and uploaded files.</p><p>If you didn’t ask for this, reply to this email straight away.</p><p class="small muted">You’re welcome back any time — you’d start with a fresh account.</p>`);
+
+/* ---- legal & contact ---- */
+SCREENS.privacy=()=>`<div class="narrow page legal"><h1>Privacy policy</h1><p class="muted">Last updated 4 October 2026 · Written in plain language</p>
+ <div class="card card-tint"><h3 class="h4">The short version</h3><ul class="check-list small" style="margin:0">
+  <li>${ic('check')}<span>We store what you give us so we can make and keep your reports.</span></li>
+  <li>${ic('check')}<span>Your files stay with us until you delete the report or your account.</span></li>
+  <li>${ic('check')}<span>Nobody uses your data to train AI.</span></li>
+  <li>${ic('check')}<span>Our team only sees anonymised reports if you switch that on.</span></li></ul></div>
+ <h2>What we collect</h2><ul><li><b>Your account:</b> name, email address, how you sign in, and the date you joined.</li><li><b>Each analysis:</b> your process description, follow-up answers, uploaded files, the report (in English and, if you ask, Hindi), chat messages, your rating and any comment.</li><li><b>Usage:</b> how many analyses and chat questions you’ve used, so we can apply the free limits.</li><li><b>Guests:</b> the description, answers and report, plus basic browser and network details so each guest gets one free analysis.</li></ul>
+ <h2>How long we keep it</h2><ul><li><b>Files you upload</b> are kept until you delete that report or your account. They are then deleted with it.</li><li><b>Descriptions, answers, reports and chats</b> are kept until you delete the report or your account.</li><li><b>Guest analyses</b> are deleted 24 hours after they’re made, unless you sign up and save them.</li><li><b>Guest browser and network details</b> are kept for at most 30 days.</li><li><b>Backups:</b> deleted data is also removed from our backups within 30 days.</li></ul>
+ <h2>Who can see your data</h2><ul><li><b>You.</b></li><li><b>People you share a link with</b> — they see the report only, never your files.</li><li><b>Our team</b> — only if you switch on “Allow Untangle to use my anonymized data” in Settings. It’s off unless you choose it.</li><li><b>Our AI provider</b> processes your description to write your report. Our contract with them says they may not train on your data.</li></ul>
+ <h2>Where it’s stored and how it’s protected</h2><p>Your data is stored on secure servers in India. Everything is encrypted while it’s stored and while it travels between your device and us.</p>
+ <h2>Your choices</h2><ul><li>Turn data sharing on or off at any time in Settings.</li><li>Delete any report — its files and chat go with it.</li><li>Delete your account — everything is removed and we email you to confirm.</li></ul>
+ <h2>Questions</h2><p>Write to us through the <a href="#/contact">Contact page</a> and choose “Privacy or data request”.</p></div>`;
+SCREENS.terms=()=>`<div class="narrow page legal"><h1>Terms of use</h1><p class="muted">Last updated 4 October 2026</p>
+ <h2>What Untangle does</h2><p>Untangle reads a description of your work process and suggests ideas to automate or simplify it. It gives advice and guides only. It does not log in to, connect to or change any of your apps.</p>
+ <h2>Advice, not a guarantee</h2><p>Time savings and costs are estimates. Check prices and your employer’s rules before you buy or set up anything.</p>
+ <h2>Free limits</h2><ul><li>Guests: one free analysis, text only.</li><li>Free account: 10 analyses a month, resetting on the 1st at midnight (India time); up to 3 files of 10 MB each per analysis; 10 chat questions per report.</li><li>A re-run counts as a new analysis. Failed analyses don’t count.</li></ul>
+ <h2>Fair use</h2><p>Don’t use Untangle to plan anything illegal or harmful, such as fraud. We’ll decline that part of a request, and we may suspend accounts that keep trying.</p>
+ <h2>Your content</h2><p>What you write and upload stays yours. You give us permission to process it only to make your reports and answer your questions — and to improve the product only if you switch that on.</p>
+ <h2>Changes</h2><p>If we change these terms in a way that matters, we’ll show a notice on the site before it takes effect.</p>
+ <h2>Contact</h2><p>Questions? Use the <a href="#/contact">Contact page</a>.</p></div>`;
+function contactSubmit(){
+  const c=S.contact; c.name=$('#c-name').value.trim(); c.email=$('#c-email').value.trim(); c.topic=$('#c-topic').value; c.msg=$('#c-msg').value.trim();
+  const e={};
+  if(!c.name) e.name='Please tell us your name.';
+  if(!c.email) e.email='Please add your email so we can reply.'; else if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c.email)) e.email='That doesn’t look like an email address — for example, name@gmail.com.';
+  if(!c.topic) e.topic='Please choose what your message is about.';
+  if(c.msg.length<20) e.msg=c.msg?'Please add a little more detail (at least 20 characters) so we can help.':'Please write your message.';
+  S.contactErr=e;
+  if(Object.keys(e).length){ refresh(); const f=$('.has-error .input,.has-error .select,.has-error .textarea'); if(f) f.focus(); return; }
+  go('contact-sent');
+}
+SCREENS.contact=()=>{ const c=S.contact, e=S.contactErr, f=(k,lab,inp)=>`<div class="field ${e[k]?'has-error':''}"><label class="label" for="c-${k}">${lab}</label>${inp}${e[k]?`<div class="err">${ic('alert')}<span>${e[k]}</span></div>`:''}</div>`;
+ const topics=['A question about a report','A problem with my account','My account was suspended','Privacy or data request','Something else'];
+ return `<div class="narrow page"><h1>Contact us</h1><p class="muted">We read every message and reply within 2 working days.</p>
+ <div class="card stack">
+  ${Object.keys(e).length?`<div class="alert a-error">${ic('alert')}<p>Please fix the ${Object.keys(e).length>1?Object.keys(e).length+' highlighted fields':'highlighted field'} below.</p></div>`:''}
+  ${f('name','Your name',`<input class="input" id="c-name" autocomplete="name" value="${esc(c.name)}">`)}
+  ${f('email','Your email',`<input class="input" id="c-email" type="email" inputmode="email" autocomplete="email" value="${esc(c.email)}">`)}
+  ${f('topic','What is it about?',`<select class="select" id="c-topic"><option value="">Choose one</option>${topics.map(t=>`<option ${c.topic===t?'selected':''}>${t}</option>`).join('')}</select>`)}
+  ${f('msg','Your message',`<textarea class="textarea" style="min-height:140px" id="c-msg">${esc(c.msg)}</textarea>`)}
+  <p class="help" style="margin:0">Please don’t include passwords or bank details.</p>
+  <button class="btn btn-primary btn-block" onclick="contactSubmit()">Send message</button>
+ </div></div>`; };
+SCREENS['contact-sent']=()=>statusPage('si-good','check',`Thanks${S.contact.name?', '+esc(S.contact.name.split(' ')[0]):''} — we’ve got your message`,`<p class="muted">We’ll reply to <b>${esc(S.contact.email||'your email')}</b> within 2 working days.</p>`,`<a class="btn btn-primary btn-block" href="${S.role==='user'?'#/dashboard':'#/landing'}" onclick="S.contact={name:'',email:'',topic:'',msg:''};S.contactErr={}">Back to home</a>`);
+
+/* ---- dashboard & settings ---- */
+SCREENS.dashboard=()=>{
+  if(needUser()) return '';
+  const l=left(), pct=l/LIMIT*100;
+  const list=S.reports.map(e=>{ const d=REPORTS[e.key].en; return `<a class="card rep-item" href="#/report/${e.id}"><span class="rep-ic">${ic('doc')}</span><div style="min-width:0"><h3 class="h4">${entryTitle(e,'en')}</h3><div class="small muted">${e.date} · ${d.glance[0]} ideas · ${d.glance[1]} to do now</div>${e.claimed?'<span class="badge b-primary" style="margin-top:6px">Saved from your guest session</span>':''}${S.shares[e.id]&&S.shares[e.id].on?'<span class="badge b-good" style="margin-top:6px">Shared link on</span>':''}</div>${ic('chev')}</a>`; }).join('');
+  return `<div class="wrap page" style="max-width:860px">
+   <h1>Namaste, ${S.first}</h1>
+   <div class="card usage" style="margin-top:16px">
+    <div class="row between" style="align-items:flex-end"><div><div class="num">${l} of 10</div><div class="muted small">analyses left this month · Resets on 1 Nov 2026</div></div>
+     ${l>0?`<a class="btn btn-primary" href="#/input" onclick="startNew()">${ic('plus')}New analysis</a>`:''}</div>
+    <div class="progress" style="margin-top:14px" role="progressbar" aria-valuenow="${l}" aria-valuemin="0" aria-valuemax="10" aria-label="Analyses left"><span style="width:${pct}%;${l<=2?'background:var(--accent)':''}"></span></div>
+    ${l<=0?`<div class="alert a-warn" style="margin-top:16px">${ic('clock')}<p><b>You’ve used all 10 analyses for October</b> (including any you deleted). They reset on 1 November 2026 at midnight. You can still open your reports and ask questions about them.</p></div>`:`<p class="help" style="margin-bottom:0">Questions in the report chat don’t count towards this.</p>`}
+   </div>
+   <div class="row between" style="margin:32px 0 12px"><h2 style="margin:0">My analyses</h2>${S.reports.length?`<span class="muted small">${S.reports.length} report${S.reports.length>1?'s':''}</span>`:''}</div>
+   ${S.reports.length?`<div class="stack">${list}</div>`:`<div class="card empty">
+     <svg class="ill" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="56" fill="#FDF0D9"/><path d="M22 74c10 0 12-30 26-30s10 24-1 24-7-23 13-23h38" fill="none" stroke="#0F6E6E" stroke-width="6" stroke-linecap="round"/><circle cx="98" cy="45" r="5" fill="#F2A93B"/></svg>
+     <h3>You have no analyses yet</h3><p class="muted" style="max-width:380px;margin:0 auto 20px">Describe a process that eats up your time, and we’ll suggest honest ways to simplify it.</p>
+     <a class="btn btn-primary" href="#/input" onclick="startNew()">Start your first analysis</a></div>`}
+  </div>`;
+};
+SCREENS.settings=()=>{ if(needUser()) return ''; return `<div class="narrow page"><a class="back" href="#/dashboard">${ic('back')}My analyses</a><h1>Account settings</h1>
+  <div class="card stack"><h2 class="h4" style="margin:0">Your account</h2><dl class="kv"><dt>Name</dt><dd>${S.name}</dd><dt>Email</dt><dd>${S.email}</dd><dt>Signs in with</dt><dd>${S.method}</dd><dt>Joined</dt><dd>12 Sep 2026</dd></dl>
+   <button class="btn btn-secondary" onclick="signOut()">${ic('out')}Sign out</button></div>
+  <div class="card" style="margin-top:16px"><div class="set-row"><div><h2 class="h4" id="ds-l">Help improve Untangle</h2><p class="small" style="margin:0 0 6px"><b>Allow Untangle to use my anonymized data to improve the product.</b></p><p class="small muted" style="margin:0">If you switch this on, our team may read copies of your reports with names, phone numbers and emails removed, to make future suggestions better. It’s off unless you turn it on, and you can turn it off at any time.</p></div>
+   <button class="switch" role="switch" aria-labelledby="ds-l" aria-checked="${S.dataShare}" onclick="S.dataShare=!S.dataShare;this.setAttribute('aria-checked',S.dataShare);toast(S.dataShare?'Saved — thank you for helping':'Saved — data sharing is off')"></button></div></div>
+  <div class="card" style="margin-top:16px;border-color:#EBC3BA"><h2 class="h4" style="color:var(--bad)">Delete my account</h2><p class="small muted">Permanently deletes your account, all ${S.reports.length} report${S.reports.length===1?'':'s'}, your process descriptions and every uploaded file. We’ll email you to confirm. This can’t be undone.</p>
+   <button class="btn btn-danger-outline" onclick="delAccModal()">${ic('trash')}Delete my account</button></div></div>`; };
+function delAccModal(){ S.delErr=false; drawDelAcc(); }
+function drawDelAcc(){ modal(`<div class="status-ill si-bad">${ic('trash')}</div><h2 class="center">Delete your account?</h2><p class="center muted">Everything will be permanently deleted: your account, ${S.reports.length} report${S.reports.length===1?'':'s'}, process descriptions, uploaded files and chats.</p>
+  <div class="field ${S.delErr?'has-error':''}"><label class="label" for="del-in">Type DELETE to confirm</label><input class="input" id="del-in" autocomplete="off" autocapitalize="characters" autofocus onkeydown="if(event.key==='Enter')confirmDelAcc()">${S.delErr?`<div class="err">${ic('alert')}<span>Type DELETE in capital letters to confirm.</span></div>`:''}</div>
+  <div class="btn-row" style="margin-top:16px"><button class="btn btn-secondary" style="flex:1" onclick="closeModal()">Cancel</button><button class="btn btn-danger" style="flex:1" onclick="confirmDelAcc()">Delete everything</button></div>`); }
+function confirmDelAcc(){ if($('#del-in').value.trim()!=='DELETE'){ S.delErr=true; drawDelAcc(); return; } closeModal(); S.reports=[]; S.used=0; S.chats={}; S.shares={}; S.deleted.push('A'); S.role='guest'; S.userKind='new'; go('account-deleted'); }
+SCREENS['account-deleted']=()=>statusPage('si-good','check','Your account has been deleted',`<p class="muted">We’ve removed your account, reports, process descriptions and uploaded files. A confirmation email is on its way to <b>${S.email}</b>.</p>`,`<a class="btn btn-primary btn-block" href="#/landing">Back to home</a><a class="btn btn-ghost btn-block" href="#/email-deleted">See the confirmation email (preview)</a>`);
+
+/* ---- admin ---- */
+const adminTabs=a=>`<nav class="tabs" aria-label="Admin sections">${[['admin','Overview'],['admin-users','Users'],['admin-ratings','Ratings']].map(t=>`<a href="#/${t[0]}" ${a===t[0]?'aria-current="page"':''}>${t[1]}</a>`).join('')}</nav>`;
+const tile=(lbl,big,sub)=>`<div class="card tile" style="padding:16px"><div class="lbl">${lbl}</div><div class="big">${big}</div><div class="sub">${sub}</div></div>`;
+const funnel=(lbl,pct,target,detail)=>`<div class="fun"><div class="fun-top"><b>${lbl}</b><span><b>${pct}%</b> <span class="muted">· target ${target}%</span> ${pct>=target?'<span class="badge b-good">On track</span>':'<span class="badge b-bad">Below</span>'}</span></div><div class="fun-track"><span style="width:${pct}%"></span><i class="target" style="left:${target}%"></i></div><div class="tiny muted" style="margin-top:4px">${detail}</div></div>`;
+SCREENS.admin=()=>{ if(needAdmin()) return ''; const days=[22,28,31,26,19,35,40,38,33,44,29,51,46,47], lab=['21','22','23','24','25','26','27','28','29','30','1','2','3','4'], mx=Math.max(...days);
+ return `<div class="wrap page"><h1>Admin</h1>${adminTabs('admin')}
+  <div class="tiles">${tile('Total users','1,284','503 signed up · 781 guests')}${tile('New this week','96','14 today')}${tile('Analyses today','47','412 this month · 38 re-runs')}${tile('AI cost','₹7.40','per analysis · ₹3,049 this month')}</div>
+  <div class="grid2" style="margin-top:16px">
+   <div class="card"><h2 class="h4">Analyses completed per day</h2><p class="tiny muted">21 Sep – 4 Oct 2026 · today highlighted</p>
+    <div class="bars" role="img" aria-label="Analyses per day, rising from 22 to 47">${days.map(v=>`<div class="b" style="height:${v/mx*100}%" title="${v} analyses"></div>`).join('')}</div>
+    <div class="bars-x" aria-hidden="true">${lab.map((l,i)=>`<span>${i%2?'':l}</span>`).join('')}</div></div>
+   <div class="card"><h2 class="h4">Funnel (last 30 days)</h2>
+    ${funnel('Completion rate',64,60,'1,912 started the input screen → 1,224 reached a report')}
+    ${funnel('Guest → sign-up',17,15,'702 guests finished an analysis → 119 signed up')}
+    ${funnel('Return usage',28,25,'Signed-up users who ran a 2nd analysis within 30 days')}</div>
+  </div>
+  <div class="grid3" style="margin-top:16px">
+   <div class="card"><h2 class="h4">Report quality</h2><div class="big" style="font:700 28px var(--font-head)">74% 👍</div><p class="small muted" style="margin:0">of 386 rated reports · target 70%</p></div>
+   <div class="card"><h2 class="h4">Follow-up chat</h2><div class="big" style="font:700 28px var(--font-head)">1,106</div><p class="small muted" style="margin:0">questions this month · 2.9 per report</p></div>
+   <div class="card"><h2 class="h4">Content access</h2><div class="big" style="font:700 28px var(--font-head)">38</div><p class="small muted" style="margin:0">users have switched on data sharing. Only their reports can be opened here.</p></div>
+  </div></div>`; };
+SCREENS['admin-users']=()=>{ if(needAdmin()) return ''; const q=S.userQuery.toLowerCase();
+ const rows=USERS.filter(u=>(S.userFilter==='all'||u.s===S.userFilter)&&(!q||u.n.toLowerCase().includes(q)||u.e.includes(q)));
+ return `<div class="wrap page"><h1>Admin</h1>${adminTabs('admin-users')}
+  <div class="row" style="margin-bottom:16px"><label class="sr" for="u-q">Search users</label><input class="input" id="u-q" style="flex:1 1 240px" placeholder="Search by name or email" value="${esc(S.userQuery)}" oninput="S.userQuery=this.value;refresh();const i=$('#u-q');i.focus();i.setSelectionRange(i.value.length,i.value.length)">
+   <div class="chips">${[['all','All'],['active','Active'],['blocked','Blocked']].map(f=>`<button class="chip" aria-pressed="${S.userFilter===f[0]}" onclick="S.userFilter='${f[0]}';refresh()">${f[1]}</button>`).join('')}</div></div>
+  <div class="card" style="padding-top:4px;padding-bottom:4px">${rows.length?rows.map(u=>`<div class="urow"><div class="who"><b>${u.n}</b><span class="small muted">${u.e}</span></div><div class="meta">Joined ${u.j} · ${u.m} · ${u.a} analyses this month${u.flag?`<br><span style="color:var(--bad)">${u.flag}</span>`:''}</div>
+    <span class="badge ${u.s==='blocked'?'b-bad':'b-good'}">${u.s==='blocked'?'Blocked':'Active'}</span>
+    <button class="btn ${u.s==='blocked'?'btn-secondary':'btn-danger-outline'} btn-sm" onclick="blockModal(${u.id})">${u.s==='blocked'?'Unblock':ic('ban')+'Block'}</button></div>`).join(''):`<div class="empty"><h3>No users match “${esc(S.userQuery)}”</h3><p class="muted">Check the spelling, or search by email instead.</p><button class="btn btn-secondary" onclick="S.userQuery='';S.userFilter='all';refresh()">Clear search</button></div>`}</div>
+  <p class="help">Process content and reports are hidden unless a user has switched on data sharing.</p></div>`; };
+function blockModal(id){ const u=USERS.find(x=>x.id===id), b=u.s!=='blocked';
+ modal(`<h2>${b?'Block':'Unblock'} ${u.n}?</h2><p class="muted">${b?'They won’t be able to sign in or run analyses. They’ll see a message asking them to contact us.':'They’ll be able to sign in and run analyses again.'}</p>
+  <div class="btn-row"><button class="btn btn-secondary" style="flex:1" onclick="closeModal()">Cancel</button><button class="btn ${b?'btn-danger':'btn-primary'}" style="flex:1" autofocus onclick="u_toggle(${id})">${b?'Block account':'Unblock account'}</button></div>`); }
+function u_toggle(id){ const u=USERS.find(x=>x.id===id); u.s=u.s==='blocked'?'active':'blocked'; if(id===1) S.blocked=u.s==='blocked'; closeModal(); refresh(); toast(`${u.n} ${u.s==='blocked'?'blocked':'unblocked'}`); }
+SCREENS['admin-ratings']=()=>{ if(needAdmin()) return ''; const list=FEEDBACK.filter(f=>S.fbFilter==='all'||(S.fbFilter==='up'?f.up:!f.up));
+ return `<div class="wrap page"><h1>Admin</h1>${adminTabs('admin-ratings')}
+  <div class="card" style="margin-bottom:16px"><div class="row between"><div><div class="lbl small muted" style="font-weight:600">Thumbs up</div><div style="font:700 28px var(--font-head)">74%</div></div><div class="small muted">286 👍 · 100 👎 · 386 rated of 1,224 reports</div></div><div class="progress" style="margin-top:12px"><span style="width:74%;background:var(--good)"></span></div><p class="tiny muted" style="margin:8px 0 0">Counts stay here even after a report is deleted; the comment is deleted with the report.</p></div>
+  <div class="chips" style="margin-bottom:12px">${[['all','All comments'],['up','👍 Thumbs up'],['down','👎 Thumbs down']].map(f=>`<button class="chip" aria-pressed="${S.fbFilter===f[0]}" onclick="S.fbFilter='${f[0]}';refresh()">${f[1]}</button>`).join('')}</div>
+  <div class="card" style="padding-top:4px;padding-bottom:4px">${list.map(f=>`<div class="fb"><div class="row between"><b>${f.up?'👍':'👎'} ${f.u}</b><span class="tiny muted">${f.d}</span></div><p style="margin:6px 0">“${f.c}”</p>${f.opt?`<button class="btn btn-secondary btn-sm" onclick="adminReportModal('${f.u}')">${ic('doc')}View report · user opted in</button>`:`<span class="tiny muted">${ic('lock','style="width:14px;height:14px;vertical-align:-2px"')} Report hidden — this user hasn’t switched on data sharing</span>`}</div>`).join('')}</div></div>`; };
+function adminReportModal(u){ const sun=u.startsWith('Sunita');
+ modal(`<span class="badge b-primary">Opted-in user · anonymised</span><h2 style="margin-top:12px">${sun?'Daily tiffin orders and deliveries':'Courier bookings for online saree orders'}</h2><p class="small muted">Names, phone numbers and emails have been removed.</p>
+  <h3 class="h4">Process summary</h3><ol class="small">${(sun?['Customers message their next-day tiffin choice on WhatsApp by 8 pm.','The owner writes a cooking list on paper.','A delivery boy gets a handwritten route list each morning.']:['Orders arrive on an online store and Instagram.','Each parcel is booked by hand on a courier website.','Tracking numbers are copied back to customers one by one.']).map(s=>`<li>${s}</li>`).join('')}</ol>
+  <h3 class="h4">Ideas</h3><div class="stack">${(sun?[['Google Form for next-day orders','now'],['Auto-count dishes in Google Sheets','now'],['Paid delivery-route app','skip']]:[['Bulk upload bookings to the courier site','now'],['Saved WhatsApp message with tracking link','now'],['Courier aggregator with API','plan']]).map(i=>`<div class="row between"><span>${i[0]}</span><span class="badge ${VERD[i[1]].cls}">${VERD[i[1]].en}</span></div>`).join('')}</div>`); }
+
+/* ============ MOCKUP DRAWER (not part of product) ============ */
+function asGuest(){ S.role='guest'; S.lang='en'; S.claimGuest=false; }
+const MOCK={
+ 'landing':()=>{asGuest();go('landing')}, 'sample':()=>{asGuest();go('sample')}, 'signin':()=>{asGuest();S.signinErr='';go('signin')},
+ 'signin-err':()=>{asGuest();S.pendingEmail='rajesh.p@example';S.signinErr='That doesn’t look like an email address. Check for a missing @ or dot — for example, name@gmail.com.';go('signin')},
+ 'check-email':()=>{asGuest();S.pendingEmail='rajesh.p@example.com';go('check-email')}, 'link-expired':()=>{asGuest();go('link-expired')}, 'suspended':()=>{asGuest();go('suspended')},
+ 'privacy':()=>go('privacy'), 'terms':()=>go('terms'), 'contact':()=>{S.contactErr={};go('contact')},
+ 'contact-err':()=>{S.contact={name:'Priya',email:'priya@',topic:'',msg:'help'};go('contact');setTimeout(contactSubmit,50)},
+ 'contact-sent':()=>{S.contact={name:'Priya Nair',email:'priya.n@example.com'};go('contact-sent')},
+ 'shared':()=>{asGuest();S.shareTarget='A';S.shares.A={on:true};S.deleted=S.deleted.filter(x=>x!=='A');go('shared')}, 'shared-off':()=>{asGuest();go('shared-off')}, 'notfound':()=>go('this-page-does-not-exist'),
+ 'input-guest':()=>{asGuest();S.guestUsed=false;startNew();go('input')},
+ 'input-short':()=>{asGuest();S.guestUsed=false;startNew();S.text='Orders on WhatsApp, then Tally.';go('input');setTimeout(generate,50)},
+ 'input-used':()=>{asGuest();S.guestUsed=true;S.guestReport=true;go('input')},
+ 'followup':()=>{if(S.role==='guest')S.guestUsed=false;go('followup')}, 'processing':()=>{if(S.role==='guest')S.guestUsed=false;go('processing')},
+ 'guest-report':()=>{asGuest();S.guestUsed=true;S.guestReport=true;go('guest-report')},
+ 'dash-new':()=>{setupUser('new');go('dashboard')}, 'dash-claimed':()=>{setupUser('claimed');go('dashboard')}, 'dash-ret':()=>{setupUser('returning');go('dashboard')}, 'dash-limit':()=>{setupUser('limit');go('dashboard')},
+ 'input-user':()=>{setupUser('returning');startNew();S.text=EXAMPLE_TEXT;S.files=[PICK[0],PICK[2]];S.fileErrs=[`“shop-walkthrough.mp4” can’t be attached — we accept PDF, Word, Excel, CSV, PNG and JPG files. You can carry on without it.`];go('input')},
+ 'input-limit':()=>{setupUser('limit');go('input')},
+ 'report':()=>{setupUser('returning');go('report/A')}, 'report-hi':()=>{setupUser('returning');S.lang='hi';go('report/A')},
+ 'chat-limit':()=>{setupUser('returning');const c=S.chats.A;c.used=10;c.msgs.push({me:1,t:'Which idea saves the most time?'},{me:0,t:CHAT_ANS.A[1]});go('report/A');setTimeout(()=>jumpTo('chat-box'),300)},
+ 'rerun':()=>{setupUser('returning');S.flow={mode:'new'};go('rerun/A')}, 'failed':()=>go('failed'), 'settings':()=>{setupUser('returning');go('settings')}, 'account-deleted':()=>go('account-deleted'),
+ 'admin':()=>{S.role='admin';go('admin')}, 'admin-users':()=>{S.role='admin';go('admin-users')}, 'admin-ratings':()=>{S.role='admin';go('admin-ratings')},
+ 'email-magic':()=>go('email-magic'), 'email-ready':()=>{ if(S.role!=='user') setupUser('returning'); go('email-ready')}, 'email-deleted':()=>go('email-deleted'),
+ 'fail':()=>{S.failNext=!S.failNext;openDrawer();toast(S.failNext?'The next analysis will fail':'Analyses will succeed again')},
+ 'block':()=>{S.blocked=!S.blocked;USERS[0].s=S.blocked?'blocked':'active';openDrawer();toast(S.blocked?'Rajesh is blocked — try signing in':'Rajesh is unblocked')}
+};
+function mock(k){ closeModal(); MOCK[k](); }
+function openDrawer(){
+  const G=[
+   ['Public',[['landing','Landing page'],['sample','Sample report'],['signin','Sign in'],['signin-err','Sign in — email error'],['check-email','Check your email'],['link-expired','Sign-in link expired'],['suspended','Account suspended'],['privacy','Privacy policy'],['terms','Terms of use'],['contact','Contact'],['contact-err','Contact — form errors'],['contact-sent','Contact — message sent'],['shared','Shared report (read-only)'],['shared-off','Shared link no longer active'],['notfound','Page not found']]],
+   ['Guest flow',[['input-guest','Describe process (guest)'],['input-short','Description too short — error'],['followup','Follow-up questions'],['processing','Processing'],['guest-report','Guest report'],['input-used','Free analysis already used']]],
+   ['Signed-in user',[['dash-new','Dashboard — new, empty'],['dash-claimed','Dashboard — guest report saved'],['dash-ret','Dashboard — returning'],['dash-limit','Dashboard — limit reached'],['input-user','Describe process + files (with file error)'],['input-limit','New analysis — limit reached'],['report','Report (English)'],['report-hi','Report (Hindi)'],['chat-limit','Report — chat limit reached'],['rerun','Edit and re-run'],['failed','Analysis failed'],['settings','Account settings'],['account-deleted','Account deleted']]],
+   ['Admin',[['admin','Overview'],['admin-users','Users & blocking'],['admin-ratings','Ratings']]],
+   ['Emails',[['email-magic','Sign-in link'],['email-ready','Report ready'],['email-deleted','Account deleted']]]
+  ];
+  modal(`<span class="preview-tag">Mockup only — not part of the product</span><h2>Jump to any screen</h2><p class="small muted">Everything is also reachable by clicking through normally.</p>
+   ${G.map(g=>`<div class="mock-group"><h4>${g[0]}</h4><div class="mock-items">${g[1].map(i=>`<button onclick="mock('${i[0]}')">${i[1]}</button>`).join('')}</div></div>`).join('')}
+   <div class="mock-group"><h4>Simulate</h4><div class="mock-items"><button class="${S.failNext?'on':''}" onclick="mock('fail')">${S.failNext?'✓ ':''}Make the next analysis fail</button><button class="${S.blocked?'on':''}" onclick="mock('block')">${S.blocked?'✓ ':''}Block Rajesh’s account</button></div></div>`,true);
+}
+
+render();
+</script>
+</body>
+</html>
